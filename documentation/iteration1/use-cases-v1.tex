@@ -40,7 +40,7 @@
 \newcounter{counterAlternativeFlow}[counterBasicFlow]
 \newcommand{\bFlowIDReset}{\setcounter{counterBasicFlow}{0}}
 \newcommand{\bFlowID}{\protect\stepcounter{counterBasicFlow}\thecounterBasicFlow}
-\newcommand{\basicFlow}{\subsection{Βασική Ροή \bFlowID}}
+\newcommand{\basicFlow}{\subsection*{Βασική Ροή \bFlowID}}
 \newcommand{\basicFlowNew}{\bFlowIDReset\basicFlow}
 \newcommand{\alternativeFlow}[1][]{\subsection*{Εναλλακτική #1 Ροή \protect\stepcounter{counterAlternativeFlow}\thecounterAlternativeFlow}}
 \newcommand{\flowbody}[2]{
@@ -79,7 +79,6 @@
 
 % επιλογή αεροσυνοδών
 \alternativeFlow
-Είναι εναλλακτική της \textbf{FIX THIS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!}
 \begin{enumerate}[label=(\ref{uc-step:plane-selected-for-flight}).a.\arabic*]
     \item υπολογίζονται ποιοι αεροσυνοδοί είναι διαθέσιμοι για την πτήση αυτήν συμπεριλαμβάνοντας και τον χρόνο που χρειάζονται για να πάνε από την προηγούμενη πτήση στην επόμενη.
     \item\label{uc-step:creation-of-flight-attendant} Εμφανίζεται η λίστα των αεροσυνοδών στην οθόνη και ο χρήστης επιλέγει έναν
@@ -88,7 +87,6 @@
 
 % περίπτωση που δεν έχουμε αρκετούς αεροσυνοδούς
 \alternativeFlow
-Είναι εναλλακτική της ροής \textbf{ανάθεση αεροσυνοδών}
 \flowbody{(\ref{uc-step:creation-of-flight-attendant}).a.}{
     \item δεν έχει συμπληρώσει το απαιτούμενο αριθμό αεροσυνοδών
     \item για να συνεχίσει ο χρήστης πρέπει να διαγράψει όλους τους αεροσυνοδούς ή να συμπληρώσει τουλάχιστον όσα απαιτεί το συγκεκριμένο αεροπλάνο
@@ -192,6 +190,8 @@
 }
 
 \section{Ακύρωση/Επαναδρομολόγηση Πτήσεων}
+
+\bFlowIDReset
 \basicFlow
 \flowbody{}{
     \item Χρήστης επιλέγει το κουμπί ακύρωσης πτήσης
