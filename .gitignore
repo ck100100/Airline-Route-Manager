@@ -1,4 +1,5 @@
 .vscode/**
+.DS_Store
 
 documentation/**/*.log
 documentation/**/*.fls
