@@ -1,0 +1,9 @@
+.vscode/**
+.DS_Store
+
+documentation/**/*.log
+documentation/**/*.fls
+documentation/**/*.fdb_latexmk
+documentation/**/*.aux
+documentation/**/*.synctex.gz
+documentation/**/*.xdv
