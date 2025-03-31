@@ -1,9 +1,13 @@
 \documentclass{article}
 \usepackage{graphicx} % Required for inserting images
+\usepackage{float}
 \usepackage{polyglossia} % used to display different languages
 \usepackage{enumitem}
 \usepackage{nameref}
 \usepackage{fontspec}
+
+% Path directory of images we want to import
+\graphicspath{{./mockup-screens/flight-management}}
 
 \setdefaultlanguage{greek}
 \setotherlanguage{english}
@@ -64,6 +68,54 @@
 		\item Εύκολος τρόπος να βλέπει ο χρήστης της πτήσεις βάση συγκεκριμμένων παραμέτρων
 		\item Υποστίριξη ειδών πτήσεων για επιβάτες, εμπόρευμα ή για πτήσης επανατοποθέτησης αεροσκάφων
 	\end{enumerate}
+
+	Στο σχήμα \ref{screen:flight-view} παρουσιάζεται η οθόνη που σου δείχνει όλες τις πτήσεις που περιέχει το σύστημα.
+	Δίνει κάποια βασικά στοιχεία για να ξέρει ο χρήστης περίπου ποιές πτήσεις έχουν στοιχεία που τους λοίπουν και
+	πτήσεις που δεν μπορούν να πραγματοποιηθούν γιατί κάτι έχει προκύψει. Επίσης του δίνει την δυνατότητα να επιλέξει
+	μια πτήση. 
+	
+	Στο σχήμα \ref{screen:flight-details} παρουσιάζει στον διαχειριστή της εταιρίας δείχνει όλα τα στοιχεία της πτήσης
+	που έχει καταγραφεί. Επίσης παράγει αυτόματα κάποια στοιχεία όπως το χρόνο της πτήσης και την απόσταση μεταξύ 
+	αεροδρομίων.
+
+	Στο σχήμα \ref{screen:Edit-Flight} επιτρέπει στον διαχειριστή της εταιρίας να αλλάξει κάποια στιοχεία της πτήσης
+	όπως το προσωπικό και το αεροπλάνο και το ο αριθμός της πτήσης. Όμως δεν μπορεί να αλλάξει τίποτα άλλο γιατί
+	θα αλλάξει τελείως η πτήση. Οπότε αναγκάζουμε τον χρήστη να ακυρώσει την πτήση αν θέλει να κάνει άλλες αλλαγές.
+	Αυτό γίνεται γιατί π.χ. δεν μπορεί να αλλάξεις μια πτήση που αντί να προσγειώσει Αθήνα πάει Λονδίνο γιατί θεωρείται
+	άλλη πτήση και οι επιβάτες δεν θα θέλουν να πάνε εκεί.
+
+	Στο σχήμα \ref{screen:Flight-Reschedule} μας επιτρέπει να αλλάξουμε την ώρα της πτήσης. Για την ευκολία του χρήστη
+	του έχουμε δώσει της προηγούμενες 2 πτήσεις και τις επόμενες 2. Με βάση αυτό μπορεί ο χρήστης να αλλάξει την ώρα
+	πτήσης με τέτοιον τρόπο ώστε να μην επηρεάζει το υπόλοιπο δρομολόγιο. 
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.75\textwidth]{../mockup-screens/flight-management/flight-list.png}
+		\caption{Flight List}
+		\label{screen:flight-view}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.75\textwidth]{../mockup-screens/flight-management/Flight-Details.png}
+		\caption{Flight Details}
+		\label{screen:flight-details}
+	\end{figure}
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\textwidth]{../mockup-screens/flight-management/Flight-Edit.png}
+		\caption{Edit Flight}
+		\label{screen:Edit-Flight}
+	\end{figure}
+
+
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.5\textwidth]{../mockup-screens/flight-management/Flight-Reschedule.png}
+		\caption{Flight Reschedule}
+		\label{screen:Flight-Reschedule}
+	\end{figure}
 	
 	\subsection{Διαχείριση Εργαζομένων}
 	Το σύστημα προσφέρει τα ακόλουθα εργαλεία για τη διαχείριση των υπαλλήλων των αεροπορικών εταιρειών:
