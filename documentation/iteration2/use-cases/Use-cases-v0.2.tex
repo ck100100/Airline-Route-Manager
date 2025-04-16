@@ -4,6 +4,7 @@
 \usepackage{enumitem}
 \usepackage{nameref}
 \usepackage{fontspec}
+\usepackage[dvipsnames]{xcolor}
 
 \setdefaultlanguage{greek}
 \setotherlanguage{english}
@@ -24,6 +25,7 @@
     \includegraphics[height=1cm, keepaspectratio]{image.png}
     SkyOps - use cases v0.2
 }
+\author{}
 
 \date{} % date displayed underneath title
 
@@ -43,6 +45,7 @@
 #2
 \end{enumerate}
 }
+\newcommand{\docChange}[1]{\textcolor{red}{#1}}
 
 
 
@@ -59,7 +62,6 @@
 \newpage
 
 \section{Προβολή/Προσθήκη Πτήσεων}
-
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{use-case-diagram.png}
