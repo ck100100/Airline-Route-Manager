@@ -1,0 +1,102 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{polyglossia} % used to display different languages
+\usepackage{enumitem}
+\usepackage{nameref}
+\usepackage{fontspec}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{float}
+
+\setdefaultlanguage{greek}
+\setotherlanguage{english}
+\newfontfamily\greekfont{Arial}
+
+
+\usepackage{fancyhdr} % used for custom headers
+
+\pagestyle{fancy} % allow the creation of custom headers
+\fancyhf{} % clear existing footers and headers
+\setlength{\headheight}{1cm}
+\rhead{
+    SkyOps
+    \includegraphics[height=0.8cm, keepaspectratio]{image.png}
+}
+
+\title{
+    \includegraphics[height=1cm, keepaspectratio]{image.png}
+    SkyOps - robustness diagrams v0.2
+}
+\author{}
+
+\date{} % date displayed underneath title
+
+\setlength{\parskip}{16pt}
+
+
+% document specific commands
+\newcounter{counterBasicFlow}
+\newcounter{counterAlternativeFlow}[counterBasicFlow]
+\newcommand{\bFlowIDReset}{\setcounter{counterBasicFlow}{0}}
+\newcommand{\bFlowID}{\protect\stepcounter{counterBasicFlow}\thecounterBasicFlow}
+\newcommand{\basicFlow}{\subsection*{Βασική Ροή \bFlowID}}
+\newcommand{\basicFlowNew}{\bFlowIDReset\basicFlow}
+\newcommand{\alternativeFlow}[1][]{\subsection*{Εναλλακτική #1 Ροή \protect\stepcounter{counterAlternativeFlow}\thecounterAlternativeFlow}}
+\newcommand{\flowbody}[2]{
+\begin{enumerate}[label=#1\arabic*]
+#2
+\end{enumerate}
+}
+\newcommand{\docChange}[1]{\textcolor{red}{#1}}
+
+
+\begin{document}
+
+\maketitle
+
+\newpage
+Χρήστος Καπετανάκης 1103828 \\
+Ανδρέας Κρητικός 1104781 \\
+Γιώργος Τεμπονέρας 1104775 \\
+Ελευθερία Γιαννοπούλου 1041039 \\
+Αλέξης Λούμπαρδης 1051948
+\newpage
+
+\section{Προβολή/Προσθήκη Πτήσεων}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{diagrams/create-flight.png}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{diagrams/edit-flight-details.png}
+\end{figure}
+
+\section{Ακύρωση/Επαναδρομολόγηση Πτήσεων}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{diagrams/cancel-flight.png}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{diagrams/reschedule-flight.png}
+\end{figure}
+
+\section{Διαχείρηση Μenu}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{diagrams/food menu use case.png}
+\end{figure}
+
+\section{Διαχείρηση Αναφορών Πιλότων}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{diagrams/pilot reports use case.png}
+\end{figure}
+
+\section{Αγορά Εισητηρίου}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{diagrams/create-booking.png}
+\end{figure}
+
+\end{document}
