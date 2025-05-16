@@ -1,6 +1,6 @@
 • Contributions:Χρήστος Καπετανάκης: 
 		Ανδρέας Κρητικός: menu use case, pilot reports use case
-		Γιώργος Τεμπονέρας:
+		Γιώργος Τεμπονέρας:airport logs use case, airplane logs use case, employee logs use case
 		Αλέξης Λούμπαρδης:contructors use case
 		Ελευθερία Γιαννοπούλου:maintenance use case, ticket selling use case
 • Final Reviews:Χρήστος Καπετανάκης, Γιώργος Τεμπονέρας, Ανδρέας Κρητικός
