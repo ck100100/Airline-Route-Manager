@@ -1,0 +1,111 @@
+package Object;
+
+import Controllers.ControllerFlight;
+import utils.DateTime;
+import utils.Status;
+
+public class Flight {
+    public int flightID;
+    public String flightNumber;
+    public Integer airplaneID;
+    public Integer[] pilotListID = {};
+    public Integer[] flightAttendantIDLlist = {};
+    public Double pricePerSeat;
+    public Integer numberofSeats;
+    public Integer departureAirportID;
+    public DateTime departureTime;
+    public Integer arrivalAirportID;
+    public DateTime arrivalTime;
+    public Integer menuID;
+    public Integer[] bookingList = {};
+    public Status status = Status.draft;
+
+    public Flight() {}
+
+    public void setBasicDetails(String flightNumber, Integer depAirportID, DateTime depTime, Integer arrAirportID, DateTime arrTime) {
+        this.flightNumber = flightNumber;
+        this.departureTime = depTime;
+        this.departureAirportID = depAirportID;
+        this.arrivalTime = arrTime;
+        this.arrivalAirportID = arrAirportID;
+
+        calculateStatus();
+    }
+
+    public void calculateStatus() {
+        boolean isNonApproved =
+                flightNumber != ""
+                && departureTime != null
+                && arrivalTime != null
+                && departureAirportID != null
+                && arrivalAirportID != null;
+        boolean isApproved =
+                isNonApproved
+                && pricePerSeat != null
+                && menuID != null
+                && airplaneID != null
+                && hasEnoughFlightAttendants()
+                && hasEnoughPilots();
+
+        if (isApproved)
+            status = Status.approved;
+        else if (isNonApproved)
+            status = Status.non_approved;
+        else
+            status = Status.draft;
+    }
+
+    public boolean setAirplaneID(Integer airplaneID) {
+        // this needs to account for planes which are not available
+        this.airplaneID = airplaneID;
+        return true;
+    }
+
+    public Integer[] setPilots(Integer[] pilotsIDList) {
+        /*
+        Accepts a list of all the pilots the flight will have.
+        It will return the id's of any pilot that is unnable to
+        make the flight
+         */
+
+        // needs to check to see if pilots are actually available
+        this.pilotListID = pilotsIDList;
+
+        Integer[] unavailablePilots = {};
+        return unavailablePilots;
+    }
+
+    public Integer[] setFlightAttendants(Integer[] flightAttendantIDList) {
+        /*
+        Accepts a list of all the flight attendants the flight will have.
+        It will return the id's of any flight attendant that is unnable to
+        make the flight
+         */
+
+        // needs to check to see if pilots are actually available
+        this.flightAttendantIDLlist = flightAttendantIDList;
+
+        Integer[] unavailableFlightAttendants = {};
+        return unavailableFlightAttendants;
+    }
+
+    private boolean hasEnoughFlightAttendants() {
+        return true; // must create this method
+    }
+
+    private boolean hasEnoughPilots() {
+        return true; // must create this method
+    }
+
+    public void setMenu(Integer menuID) {
+        this.menuID = menuID;
+    }
+
+    public void changeFlightNumber(String newFlightNumber, ControllerFlight controllerFlight) throws IllegalArgumentException {
+        boolean isDuplicateFlightNumber = false;
+        if(isDuplicateFlightNumber)
+            throw new IllegalArgumentException("This flight number already exists!");
+
+        flightNumber = newFlightNumber;
+    }
+}
