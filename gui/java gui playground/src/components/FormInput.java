@@ -13,9 +13,8 @@ public class FormInput extends JPanel {
         JLabel label = new FormLabel(labelText);
 
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
-//        label.setBorder(new EmptyBorder(0, 0, 10, 0));
         inputBox = new JTextField(defaultValue);
-        inputBox.setPreferredSize(new Dimension(350, 30));
+        inputBox.setMaximumSize(new Dimension(350, 30));
         inputBox.setEnabled(enabled);
 
         this.add(label);

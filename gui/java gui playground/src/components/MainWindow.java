@@ -25,7 +25,7 @@ public abstract class MainWindow {
         outerPanel.add(displayHeader(), BorderLayout.NORTH);
         var panel = new PanelCentered();
         panel.attatch(outerPanel);
-        outerPanel.add(generateBody(), BorderLayout.CENTER);
+        panel.add(generateBody());
         window.add(outerPanel, BorderLayout.CENTER);
         window.setVisible(true);
     }
