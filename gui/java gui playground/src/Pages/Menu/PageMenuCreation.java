@@ -6,6 +6,7 @@ import components.MainWindow;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.table.DefaultTableModel;
 
 public class PageMenuCreation extends MainWindow {
     public PageMenuCreation(){super("Create Menu");}
@@ -51,12 +52,34 @@ public class PageMenuCreation extends MainWindow {
             }
         });
         panel.add(registerMenuBtn);
+        var insertMenuItemBtn = new JButton("Insert Menu Item");
+        insertMenuItemBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onInsertMenuItem();
+            }
+        });
+        panel.add(insertMenuItemBtn);
 
         return panel;
     }
 
     private JPanel generateMenuItemsList() {
         var panel = new JPanel();
+        String[] columnNames = {"Item", "Price"};
+        Object[][] data = {
+                {"Burger", 5.99},
+                {"Pizza", 8.99},
+                {"Salad", 4.49}
+        };
+
+        var tableModel = new DefaultTableModel(data, columnNames);
+        var table = new JTable(tableModel);
+
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        panel.add(scrollPane);
+
         return panel;
     }
     private void onInsert() {
@@ -64,9 +87,14 @@ public class PageMenuCreation extends MainWindow {
     }
 
     private void onRegisterMenu() {
-        return;
+        var TemporaryMenu = new PageTemporaryMenu();
+        TemporaryMenu.show();
     }
     private void onCancel() {
         closeWindow();
+    }
+    private void onInsertMenuItem(){
+        var InsertMenuItem = new PageInsertMenuItem();
+        InsertMenuItem.show();
     }
 }
