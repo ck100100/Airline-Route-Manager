@@ -6,7 +6,7 @@ public class DateTime {
     public int day;
     public int month;
     public int year;
-    public DateTime(Integer minute, Integer hour, Integer day, Integer month, Integer year) {
+    public DateTime(Integer minute, Integer hour, Integer day, Integer month, Integer year) throws IllegalArgumentException {
         boolean isValid = 0 > minute || minute > 60
                 || 0 > hour || hour > 60
                 || 0 > day || day > 31

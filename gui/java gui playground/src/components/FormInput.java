@@ -1,5 +1,7 @@
 package components;
 
+import utils.Exceptions.InvalidInputException;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -29,9 +31,9 @@ public class FormInput extends JPanel {
         return true;
     }
 
-    public String getText() throws Exception {
+    public String getText() throws InvalidInputException {
         if(validateInput() == false)
-            throw new Exception("Invalid input...");
+            throw new InvalidInputException("Invalid input...");
         return inputBox.getText();
     }
 }

@@ -1,5 +1,8 @@
 package components;
 
+import utils.DateTime;
+import utils.Exceptions.InvalidInputException;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
@@ -7,8 +10,10 @@ import java.awt.*;
 public class FormDateTimeInput extends JPanel {
     private JTextField hourInput, minuteInput, dayInput, monthInput, yearInput;
     private boolean isEnabled;
-    public FormDateTimeInput(String labelText, boolean enabled, int defaultHour, int defaultMinute, int defaultDay, int defaultMonth, int defaultYear) {
+    private String labelText;
+    public FormDateTimeInput(String labelText, DateTime dateTime, boolean enabled) {
         this.isEnabled = enabled;
+        this.labelText = labelText;
 
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(new EmptyBorder(10, 0, 10, 0));
@@ -20,11 +25,11 @@ public class FormDateTimeInput extends JPanel {
         JPanel inputPanel = new JPanel();
         inputPanel.setLayout(new BoxLayout(inputPanel, BoxLayout.X_AXIS));
         inputPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
-        hourInput = generateField(defaultHour);
-        minuteInput = generateField(defaultMinute);
-        dayInput = generateField(defaultDay);
-        monthInput = generateField(defaultMonth);
-        yearInput = generateField(defaultYear);
+        hourInput = generateField(dateTime.hour);
+        minuteInput = generateField(dateTime.minute);
+        dayInput = generateField(dateTime.day);
+        monthInput = generateField(dateTime.month);
+        yearInput = generateField(dateTime.year);
 
 
         inputPanel.add(hourInput);
@@ -39,6 +44,20 @@ public class FormDateTimeInput extends JPanel {
 
         this.add(label);
         this.add(inputPanel);
+    }
+
+    public DateTime getValue() throws InvalidInputException {
+        try {
+            return new DateTime(
+                    Integer.parseInt(minuteInput.getText()),
+                    Integer.parseInt(hourInput.getText()),
+                    Integer.parseInt(dayInput.getText()),
+                    Integer.parseInt(monthInput.getText()),
+                    Integer.parseInt(yearInput.getText())
+            );
+        } catch(NumberFormatException e) {
+            throw new InvalidInputException("The input with label '" + labelText+ "' does not have a valid date!");
+        }
     }
 
     private JComponent generateTimeSeperator() {
