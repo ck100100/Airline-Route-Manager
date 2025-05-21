@@ -1,3 +1,5 @@
+package Object;
+
 public class AirplaneLog {
     private static int idCounter = 1;
 

@@ -1,3 +1,7 @@
+package Pages.Airplanelogs;
+
+import Object.AirplaneLog;
+
 import javax.swing.*;
 import java.awt.*;
 
