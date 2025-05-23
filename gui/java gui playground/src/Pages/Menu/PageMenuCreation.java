@@ -1,15 +1,23 @@
 package Pages.Menu;
 
+import Controllers.ControllerMenuItem;
 import components.FormInput;
 import components.MainWindow;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import Object.FoodMenuItem;
 
 public class PageMenuCreation extends MainWindow {
+    private List<FoodMenuItem> selectedItems = new ArrayList<>();
+    private DefaultTableModel tableModel;
+    private JTable table;
     public PageMenuCreation(){super("Create Menu");}
+
 
     @Override
     protected JPanel generateBody(){
@@ -66,15 +74,11 @@ public class PageMenuCreation extends MainWindow {
 
     private JPanel generateMenuItemsList() {
         var panel = new JPanel();
-        String[] columnNames = {"Item", "Price"};
-        Object[][] data = {
-                {"Burger", 5.99},
-                {"Pizza", 8.99},
-                {"Salad", 4.49}
-        };
+        String[] columnNames = {"Item", "Price","Weight"};
 
-        var tableModel = new DefaultTableModel(data, columnNames);
-        var table = new JTable(tableModel);
+         tableModel = new DefaultTableModel(columnNames,0);
+         table = new JTable(tableModel);
+        refreshTableData();
 
 
         JScrollPane scrollPane = new JScrollPane(table);
@@ -82,8 +86,23 @@ public class PageMenuCreation extends MainWindow {
 
         return panel;
     }
+    private void refreshTableData(){
+        tableModel.setRowCount(0);
+        for(var item : ControllerMenuItem.getMenuItems()){
+            Object[] row = {item.menuItemName, item.price, item.weight};
+            tableModel.addRow(row);
+        }
+    }
     private void onInsert() {
-        return;
+        int selectedRow = table.getSelectedRow();
+        String name = tableModel.getValueAt(selectedRow,0).toString();
+        double price = Double.parseDouble(tableModel.getValueAt(selectedRow,1).toString());
+        double weight = Double.parseDouble(tableModel.getValueAt(selectedRow,2).toString());
+        FoodMenuItem selectedItem = new FoodMenuItem();
+        selectedItem.menuItemName = name;
+        selectedItem.price = price;
+        selectedItem.weight = weight;
+        selectedItems.add(selectedItem);
     }
 
     private void onRegisterMenu() {
@@ -94,7 +113,14 @@ public class PageMenuCreation extends MainWindow {
         closeWindow();
     }
     private void onInsertMenuItem(){
-        var InsertMenuItem = new PageInsertMenuItem();
+        var InsertMenuItem = new PageInsertMenuItem(() -> refreshTableData()) {
+            @Override
+            public void onSubmit() {
+                super.onSubmit();
+                refreshTableData();
+            }
+        };
         InsertMenuItem.show();
     }
+
 }
