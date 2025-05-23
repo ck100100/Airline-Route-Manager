@@ -52,4 +52,31 @@ public class DateTime {
 
         return parsedData;
     }
+
+    public boolean isBefore(DateTime otherDateTime) {
+        if(this.year > otherDateTime.year)
+            return false;
+        else if(this.month > otherDateTime.month)
+            return false;
+        else if(this.day > otherDateTime.day)
+            return false;
+        else if(this.hour > otherDateTime.hour)
+            return false;
+        else if(this.minute > otherDateTime.minute)
+            return false;
+        else
+            return true;
+    }
+
+    public boolean isEqual(DateTime otherDateTime) {
+        return this.year == otherDateTime.year
+                && this.month == otherDateTime.month
+                && this.day == otherDateTime.day
+                && this.hour == otherDateTime.hour
+                && this.minute == otherDateTime.minute;
+    }
+
+    public boolean isBeforeOrEqual(DateTime otherDateTime) {
+        return isEqual(otherDateTime) || isBefore(otherDateTime);
+    }
 }
