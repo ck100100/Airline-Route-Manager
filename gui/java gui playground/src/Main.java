@@ -1,3 +1,4 @@
+import Controllers.ControllerMenuItem;
 import Pages.Flights.PageCreateFlight;
 import Pages.Menu.PageInsertMenuItem;
 import Pages.Menu.PageMenuCreation;
@@ -16,7 +17,8 @@ public class Main {
             public void run() {
 //                MainWindow main = new PageCreateFlight("Dev Ops");
                 // var main = new PageInsertMenuItem();
-                var main = new PageMenuCreation();
+                var controller = new ControllerMenuItem();
+                var main = new PageMenuCreation(controller);
                 main.show();
             }
         });

@@ -13,10 +13,14 @@ import javax.swing.table.DefaultTableModel;
 import Object.FoodMenuItem;
 
 public class PageMenuCreation extends MainWindow {
-    private List<FoodMenuItem> selectedItems = new ArrayList<>();
+    private final ControllerMenuItem controller;
+    private final List<FoodMenuItem> selectedItems = new ArrayList<>();
     private DefaultTableModel tableModel;
     private JTable table;
-    public PageMenuCreation(){super("Create Menu");}
+    public PageMenuCreation(ControllerMenuItem controller){
+        super("Create Menu");
+        this.controller = controller;
+    }
 
 
     @Override
@@ -88,7 +92,7 @@ public class PageMenuCreation extends MainWindow {
     }
     private void refreshTableData(){
         tableModel.setRowCount(0);
-        for(var item : ControllerMenuItem.getMenuItems()){
+        for(var item : controller.getMenuItems()){
             Object[] row = {item.menuItemName, item.price, item.weight};
             tableModel.addRow(row);
         }
@@ -113,13 +117,7 @@ public class PageMenuCreation extends MainWindow {
         closeWindow();
     }
     private void onInsertMenuItem(){
-        var InsertMenuItem = new PageInsertMenuItem(() -> refreshTableData()) {
-            @Override
-            public void onSubmit() {
-                super.onSubmit();
-                refreshTableData();
-            }
-        };
+        var InsertMenuItem = new PageInsertMenuItem(controller, this::refreshTableData);
         InsertMenuItem.show();
     }
 
