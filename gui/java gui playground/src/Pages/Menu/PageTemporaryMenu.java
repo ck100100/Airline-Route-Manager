@@ -5,10 +5,16 @@ import components.MainWindow;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.List;
 import javax.swing.table.DefaultTableModel;
+import Object.FoodMenuItem;
 
 public class PageTemporaryMenu extends MainWindow {
-    public PageTemporaryMenu(){super("Temporary Menu");}
+    private List<FoodMenuItem> tempItems;
+    public PageTemporaryMenu(){
+        super("Temporary Menu");
+        this.tempItems = tempItems;
+    }
 
     @Override
     protected JPanel generateBody(){
