@@ -1,3 +1,8 @@
+package Pages.Airportlogs;
+
+import Controllers.ControllerAirport;
+import Object.AirportLog;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
