@@ -11,13 +11,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PageInsertMenuItem extends MainWindow {
+    private final ControllerMenuItem controller;
     private Runnable onInsertCallback;
     private FormInput nameInput;
     private FormInput costInput;
     private FormInput weightInput;
-    public PageInsertMenuItem(Runnable onInsertCallback){
+    public PageInsertMenuItem(ControllerMenuItem controller,Runnable onInsertCallback){
 
         super("Insert Menu Item");
+        this.controller = controller;
         this.onInsertCallback = onInsertCallback;
     }
 
@@ -77,7 +79,7 @@ public class PageInsertMenuItem extends MainWindow {
             newFoodItem.menuItemName = name;
             newFoodItem.price = cost;
             newFoodItem.weight = weight;
-            ControllerMenuItem.addItem(newFoodItem);
+            controller.addItem(newFoodItem);
             if(onInsertCallback != null){
                 onInsertCallback.run();
             }
