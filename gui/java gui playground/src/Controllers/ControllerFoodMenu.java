@@ -5,9 +5,12 @@ import java.util.List;
 import Object.FoodMenu;
 
 public class ControllerFoodMenu {
-    private static final List<FoodMenu> foodMenus = new ArrayList<FoodMenu>();
-    public static void addMenu(FoodMenu menu){
+    private List<FoodMenu> foodMenus = new ArrayList<FoodMenu>();
+    public void addMenu(FoodMenu menu){
         foodMenus.add(menu);
     }
 
+    public ArrayList<FoodMenu> getAllFoodMenus() {
+        return (ArrayList<FoodMenu>) foodMenus;
+    }
 }
