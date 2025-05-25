@@ -1,6 +1,7 @@
 package Controllers;
 
 import Object.AirplaneLog;
+import Object.Flight;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ public class ControllerAirplane {
     public List<AirplaneLog> getAllAirplanes() {
         return airplanes;
     }
+
 
     private void generateMockData() {
         airplanes.add(makeAirplane("Boeing 737", 160, 18000, 80, 15.5, 5600, 32, 6, true, "passenger"));

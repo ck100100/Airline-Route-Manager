@@ -1,3 +1,4 @@
+import Controllers.ControllerAirplane;
 import Controllers.ControllerFoodMenu;
 import Controllers.ControllerMenuItem;
 import Pages.Flights.PageCreateFlight;
@@ -18,9 +19,9 @@ public class Main {
             public void run() {
 //                MainWindow main = new PageCreateFlight("Dev Ops");
                 // var main = new PageInsertMenuItem();
-                var controller = new ControllerMenuItem();
-                var foodMenuController = new ControllerFoodMenu();
-                var main = new PageMenuCreation(controller,foodMenuController);
+                var controller = new ControllerAirplane();
+                //var foodMenuController = new ControllerFoodMenu();
+                var main = new PageAvailablePlanes(controller);
                 main.show();
             }
         });

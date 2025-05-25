@@ -19,6 +19,7 @@ public class Flight {
     public Integer menuID;
     public Integer[] bookingList = {};
     public Status status = Status.draft;
+    public FlightReport report;
 
     public Flight() {}
 

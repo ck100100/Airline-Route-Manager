@@ -1,5 +1,6 @@
 package Controllers;
 import Object.Flight;
+import Object.FlightReport;
 import utils.Status;
 import utils.DateTime;
 
@@ -56,7 +57,15 @@ public class ControllerFlight {
         }
         return item;
     }
-
+    public List<Flight> getFlightsByPlaneId(int planeId){
+        List<Flight> planeFlights = new ArrayList<>();
+        for(Flight flight : flightList){
+            if(flight.airplaneID == planeId){
+                planeFlights.add(flight);
+            }
+        }
+        return planeFlights;
+    }
     private void generateMockData() {
         var f1 = new Flight();
         f1.setBasicDetails(
@@ -66,6 +75,15 @@ public class ControllerFlight {
             10,
             new DateTime(00, 14, 10, 02, 25)
         );
+        f1.airplaneID = 2;
+        var report = new FlightReport();
+        report.createReport(Status.normal, "lksfrngkf");
+        f1.report = report;
+        f1.arrivalAirportID = 1;
+        f1.departureAirportID = 2;
+        f1.status = Status.approved;
+
         flightList.add(f1);
+
     }
 }
