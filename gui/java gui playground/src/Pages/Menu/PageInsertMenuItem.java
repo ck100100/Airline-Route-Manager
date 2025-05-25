@@ -67,11 +67,11 @@ public class PageInsertMenuItem extends MainWindow {
             String costStr = costInput.getText();
             String weightStr = weightInput.getText();
 
-            /*if(name.isEmpty() || costStr.isEmpty() || weightStr.isEmpty())
+            if(name.isEmpty() || costStr.isEmpty() || weightStr.isEmpty())
             {
-                JOptionPane.showMessageDialog(this,"All fields are required");
+                JOptionPane.showMessageDialog(null,"All fields are required");
                 return;
-            }*/
+            }
             double cost = Double.parseDouble(costStr);
             double weight = Double.parseDouble(weightStr);
 
@@ -85,11 +85,11 @@ public class PageInsertMenuItem extends MainWindow {
             }
 
         } catch (Exception ex){
-            //JOptionPane.showMessageDialog(this,ex.getMessage());
+            JOptionPane.showMessageDialog(null,ex.getMessage());
         }
 
 
-        return;
+        closeWindow();
     }
 
     public void onCancel() {

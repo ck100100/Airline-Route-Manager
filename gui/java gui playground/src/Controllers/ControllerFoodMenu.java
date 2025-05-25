@@ -19,5 +19,17 @@ public class ControllerFoodMenu {
         return null;
 
     }
+    public int getNextFoodMenuId(){
+        if(foodMenus.isEmpty()){
+            return 1;
+        }
+        int lastId = 0;
+        for(FoodMenu menu : foodMenus){
+            if(menu.getMenuID() > lastId){
+                lastId = menu.getMenuID();
+            }
+        }
+        return lastId + 1;
+    }
 
 }

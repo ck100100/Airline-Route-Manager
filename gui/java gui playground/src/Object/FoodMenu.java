@@ -7,6 +7,7 @@ public class FoodMenu {
     public int menuPrice;
     public int menuID;
     public String description;
+    public String name;
 
     public int getMenuID(){
         return menuID;
