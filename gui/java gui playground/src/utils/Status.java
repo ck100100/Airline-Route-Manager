@@ -4,5 +4,9 @@ public enum Status {
     draft,
     non_approved,
     not_possible,
-    approved
+    approved,
+    cancelled,
+    critical,
+    normal,
+    medium
 }

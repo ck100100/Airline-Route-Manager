@@ -1,5 +1,6 @@
 package Pages.Menu;
 
+import Controllers.ControllerFoodMenu;
 import components.FormInput;
 import components.MainWindow;
 import javax.swing.*;
@@ -8,12 +9,23 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import Object.FoodMenuItem;
+import Object.FoodMenu;
 
 public class PageTemporaryMenu extends MainWindow {
     private List<FoodMenuItem> tempItems;
-    public PageTemporaryMenu(){
+    private final ControllerFoodMenu controllerFoodMenu;
+    private JTable table;
+    private String name;
+    private String description;
+    private int price;
+    private DefaultTableModel tableModel;
+    public PageTemporaryMenu(List<FoodMenuItem> tempItems, String name, String description, int price, ControllerFoodMenu controllerFoodMenu){
         super("Temporary Menu");
         this.tempItems = tempItems;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.controllerFoodMenu = controllerFoodMenu;
     }
 
     @Override
@@ -22,6 +34,7 @@ public class PageTemporaryMenu extends MainWindow {
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
         var leftPanel = new JPanel();
         leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
+        leftPanel.add(nameAndDescriptionForm());
         leftPanel.add(generateTable());
         leftPanel.add(generateCostForm());
         panel.add(leftPanel);
@@ -34,15 +47,10 @@ public class PageTemporaryMenu extends MainWindow {
 
 
         String[] columnNames = {"Item", "Price"};
-        Object[][] data = {
-                {"Burger", 5.99},
-                {"Pizza", 8.99},
-                {"Salad", 4.49}
-        };
+        tableModel = new DefaultTableModel(columnNames,0);
+        table = new JTable(tableModel);
+        refreshTable();
 
-
-        var tableModel = new DefaultTableModel(data, columnNames);
-        var table = new JTable(tableModel);
 
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane);
@@ -79,15 +87,54 @@ public class PageTemporaryMenu extends MainWindow {
         panel.add(deleteMenuBtn);
         return panel;
     }
-    public void onRemove(){return;}
-    public void onSave(){return;}
-    public void onDelete(){return;}
+    protected JPanel nameAndDescriptionForm(){
+        var panel = new JPanel();
+        var panelCenter = new JPanel();
+        panelCenter.setLayout(new BoxLayout(panelCenter,BoxLayout.X_AXIS));
+        var nameLabel = new FormInput("Name",false,name);
+        var descriptionLabel = new FormInput("Description",false,description);
+        panelCenter.add(nameLabel);
+        panelCenter.add(descriptionLabel);
+        panel.add(panelCenter);
+        return panel;
+    }
+    public void onRemove(){
+        int selectedRow = table.getSelectedRow();
+        tempItems.remove(selectedRow);
+        refreshTable();
+    }
+    private void refreshTable(){
+        tableModel.setRowCount(0);
+        for(FoodMenuItem item : tempItems){
+            tableModel.addRow(new Object[]{item.menuItemName, item.price});
+        }
+    }
+    public void onSave(){
+        if(tempItems.isEmpty()){
+            JOptionPane.showMessageDialog(null,"Cannot save an empty menu");
+            return;
+        }
+        FoodMenu newMenu = new FoodMenu();
+        newMenu.menuID = controllerFoodMenu.getNextFoodMenuId();
+        newMenu.description = description;
+        newMenu.name = name;
+        newMenu.foodMenu = tempItems;
+        controllerFoodMenu.addMenu(newMenu);
+        tempItems.clear();
+        refreshTable();
+        closeWindow();
+    }
+    public void onDelete(){
+        tempItems.clear();
+        refreshTable();
+        closeWindow();
+    }
 
     protected JPanel generateCostForm(){
         var panel = new JPanel();
         var panelCenter = new JPanel();
         panelCenter.setLayout(new BoxLayout(panelCenter,BoxLayout.X_AXIS));
-        var cost = new FormInput("Menu Cost",false,"$$$$");
+        var cost = new FormInput("Menu price",false,String.valueOf(price));
         panelCenter.add(cost);
         panel.add(panelCenter);
         return panel;
