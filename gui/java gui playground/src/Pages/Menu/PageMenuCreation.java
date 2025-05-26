@@ -1,5 +1,6 @@
 package Pages.Menu;
 
+import Controllers.ControllerFoodMenu;
 import Controllers.ControllerMenuItem;
 import components.FormInput;
 import components.MainWindow;
@@ -13,10 +14,18 @@ import javax.swing.table.DefaultTableModel;
 import Object.FoodMenuItem;
 
 public class PageMenuCreation extends MainWindow {
-    private List<FoodMenuItem> selectedItems = new ArrayList<>();
+    private final ControllerMenuItem controller;
+    private final ControllerFoodMenu foodMenuController;
+    private final List<FoodMenuItem> selectedItems = new ArrayList<>();
     private DefaultTableModel tableModel;
     private JTable table;
-    public PageMenuCreation(){super("Create Menu");}
+    private FormInput nameInput;
+    private FormInput descriptionInput;
+    public PageMenuCreation(ControllerMenuItem controller, ControllerFoodMenu foodMenuController){
+        super("Create Menu");
+        this.controller = controller;
+        this.foodMenuController = foodMenuController;
+    }
 
 
     @Override
@@ -31,8 +40,8 @@ public class PageMenuCreation extends MainWindow {
         var panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        var nameInput = new FormInput("Name", true, "");
-        var descriptionInput = new FormInput("Description", true, "");
+         nameInput = new FormInput("Name", true, "");
+         descriptionInput = new FormInput("Description", true, "");
         panel.add(nameInput);
         panel.add(descriptionInput);
 
@@ -56,7 +65,11 @@ public class PageMenuCreation extends MainWindow {
         registerMenuBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                onRegisterMenu();
+                try {
+                    onRegisterMenu();
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
         panel.add(registerMenuBtn);
@@ -88,7 +101,7 @@ public class PageMenuCreation extends MainWindow {
     }
     private void refreshTableData(){
         tableModel.setRowCount(0);
-        for(var item : ControllerMenuItem.getMenuItems()){
+        for(var item : controller.getMenuItems()){
             Object[] row = {item.menuItemName, item.price, item.weight};
             tableModel.addRow(row);
         }
@@ -105,22 +118,27 @@ public class PageMenuCreation extends MainWindow {
         selectedItems.add(selectedItem);
     }
 
-    private void onRegisterMenu() {
-        var TemporaryMenu = new PageTemporaryMenu();
+    private void onRegisterMenu() throws Exception {
+        String name = nameInput.getText();
+        String description = descriptionInput.getText();
+        int price = calculatePrice(selectedItems);
+        var TemporaryMenu = new PageTemporaryMenu(selectedItems,name,description,price,foodMenuController);
         TemporaryMenu.show();
     }
     private void onCancel() {
+        selectedItems.clear();
         closeWindow();
     }
     private void onInsertMenuItem(){
-        var InsertMenuItem = new PageInsertMenuItem(() -> refreshTableData()) {
-            @Override
-            public void onSubmit() {
-                super.onSubmit();
-                refreshTableData();
-            }
-        };
+        var InsertMenuItem = new PageInsertMenuItem(controller, this::refreshTableData);
         InsertMenuItem.show();
+    }
+    private int calculatePrice(List<FoodMenuItem> selectedItems){
+        int price = 0;
+        for(FoodMenuItem item : selectedItems){
+            price += item.price;
+        }
+        return price;
     }
 
 }

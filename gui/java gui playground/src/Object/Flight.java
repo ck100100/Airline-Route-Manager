@@ -4,14 +4,16 @@ import Controllers.ControllerFlight;
 import utils.DateTime;
 import utils.Status;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Flight {
     public int flightID;
     public String flightNumber;
     public Integer airplaneID;
-    public Integer[] pilotListID = {};
-    public Integer[] flightAttendantIDLlist = {};
+    public List<Integer> pilotListID = null;
+    public List<Integer> flightAttendantIDLlist = null;
     public Double pricePerSeat;
-    public Integer numberofSeats;
     public Integer departureAirportID;
     public DateTime departureTime;
     public Integer arrivalAirportID;
@@ -19,6 +21,7 @@ public class Flight {
     public Integer menuID;
     public Integer[] bookingList = {};
     public Status status = Status.draft;
+    public FlightReport report;
 
     public Flight() {}
 
@@ -61,7 +64,7 @@ public class Flight {
         return true;
     }
 
-    public Integer[] setPilots(Integer[] pilotsIDList) {
+    public ArrayList<Integer> setPilots(ArrayList<Integer> pilotsIDList) {
         /*
         Accepts a list of all the pilots the flight will have.
         It will return the id's of any pilot that is unnable to
@@ -71,11 +74,11 @@ public class Flight {
         // needs to check to see if pilots are actually available
         this.pilotListID = pilotsIDList;
 
-        Integer[] unavailablePilots = {};
+        ArrayList<Integer> unavailablePilots = new ArrayList<>();
         return unavailablePilots;
     }
 
-    public Integer[] setFlightAttendants(Integer[] flightAttendantIDList) {
+    public ArrayList<Integer> setFlightAttendants(ArrayList<Integer> flightAttendantIDList) {
         /*
         Accepts a list of all the flight attendants the flight will have.
         It will return the id's of any flight attendant that is unnable to
@@ -85,7 +88,7 @@ public class Flight {
         // needs to check to see if pilots are actually available
         this.flightAttendantIDLlist = flightAttendantIDList;
 
-        Integer[] unavailableFlightAttendants = {};
+        ArrayList<Integer> unavailableFlightAttendants = new ArrayList<>();
         return unavailableFlightAttendants;
     }
 

@@ -7,8 +7,10 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class FormInput extends JPanel {
-    private JTextField inputBox;
+    protected JTextField inputBox;
+    private String label;
     public FormInput(String labelText, boolean enabled, String defaultValue) {
+        this.label = labelText;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(new EmptyBorder(10, 0, 10, 0));
 
@@ -33,7 +35,7 @@ public class FormInput extends JPanel {
 
     public String getText() throws InvalidInputException {
         if(validateInput() == false)
-            throw new InvalidInputException("Invalid input...");
+            throw new InvalidInputException("The field '" + label + "' has an invalid value");
         return inputBox.getText();
     }
 }

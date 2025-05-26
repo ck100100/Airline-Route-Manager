@@ -78,7 +78,7 @@ public class FormDateTimeInput extends JPanel {
         Dimension minSize = new Dimension(50, 30);
         Dimension maxSize = new Dimension(100, 30);
 
-        var field = new JTextField(defaultValue);
+        var field = new JTextField(Integer.toString(defaultValue));
         field.setMinimumSize(minSize);
         field.setMaximumSize(maxSize);
         field.setEnabled(this.isEnabled);

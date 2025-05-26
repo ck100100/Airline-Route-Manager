@@ -99,7 +99,7 @@ public class PageViewFlightList extends MainWindow {
     }
 
     private void onSelectCreateFlight() {
-        var newPage = new PageCreateFlight();
+        var newPage = new PageCreateFlight(airline);
         newPage.show();
     }
 }

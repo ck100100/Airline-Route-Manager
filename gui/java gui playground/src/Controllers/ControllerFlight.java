@@ -1,5 +1,5 @@
 package Controllers;
-import Object.Flight;
+import Object.*;
 import utils.Status;
 import utils.DateTime;
 
@@ -20,8 +20,7 @@ public class ControllerFlight {
     public List<Flight> getFlightsByFilter(Status status) {
         List<Flight> filteredList = new ArrayList<Flight>();
 
-        for(int i = 0; i < flightList.size(); i++) {
-            var flight = flightList.get(i);
+        for (Flight flight : flightList) {
             if (flight.status == status)
                 filteredList.add(flight);
         }
@@ -56,16 +55,48 @@ public class ControllerFlight {
         }
         return item;
     }
+    public List<Flight> getFlightsByPlaneId(int planeId){
+        List<Flight> planeFlights = new ArrayList<>();
+        for(Flight flight : flightList){
+            if(flight.airplaneID == planeId){
+                planeFlights.add(flight);
+            }
+        }
+        return planeFlights;
+    }
+
+    private Flight getFlightAfterDate(DateTime dateTime, AirplaneLog airplane) {
+        Flight earliestFlight = null;
+        for(int i=0; i < flightList.size(); i++) {
+            Flight currentFlight = flightList.get(i);
+            if(currentFlight.airplaneID != airplane.getId() || currentFlight.departureTime.isBeforeOrEqual(dateTime))
+                continue;
+
+            if(earliestFlight != null && currentFlight.departureTime.isBefore(earliestFlight.departureTime))
+                earliestFlight = currentFlight;
+        }
+
+        return earliestFlight;
+    }
 
     private void generateMockData() {
         var f1 = new Flight();
         f1.setBasicDetails(
             "A1234",
             3,
-            new DateTime(00, 14, 10, 01, 25),
+            new DateTime(0, 14, 10, 1, 2025),
             10,
-            new DateTime(00, 14, 10, 02, 25)
+            new DateTime(0, 14, 10, 2, 2025)
         );
+        f1.airplaneID = 2;
+        var report = new FlightReport();
+        report.createReport(Status.normal, "lksfrngkf");
+        f1.report = report;
+        f1.arrivalAirportID = 1;
+        f1.departureAirportID = 2;
+        f1.status = Status.approved;
+
         flightList.add(f1);
+
     }
 }
