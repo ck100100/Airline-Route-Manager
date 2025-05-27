@@ -56,7 +56,9 @@ public class FormDateTimeInput extends JPanel {
                     Integer.parseInt(yearInput.getText())
             );
         } catch(NumberFormatException e) {
-            throw new InvalidInputException("The input with label '" + labelText+ "' does not have a valid date!");
+            throw new InvalidInputException("The input with label '" + labelText + "' does not have a valid date!");
+        } catch(IllegalArgumentException e) {
+            throw new InvalidInputException("The input with label '" + labelText + "' does not have a valid date!");
         }
     }
 
