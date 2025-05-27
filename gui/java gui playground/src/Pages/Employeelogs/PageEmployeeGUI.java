@@ -1,7 +1,7 @@
 package Pages.Employeelogs;
 
 import Controllers.*;
-import Object.EmployeeLog;
+import Object.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -183,9 +183,5 @@ public class PageEmployeeGUI extends JFrame {
 
         controller.addEmployee(newEmp);
         listModel.addElement(newEmp);
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PageEmployeeGUI().setVisible(true));
     }
 }

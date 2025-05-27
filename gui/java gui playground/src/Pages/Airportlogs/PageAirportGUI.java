@@ -164,8 +164,4 @@ public class PageAirportGUI {
 
         formFrame.setVisible(true);
     }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(PageAirportGUI::new);
-    }
 }

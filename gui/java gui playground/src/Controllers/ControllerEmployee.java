@@ -1,6 +1,6 @@
 package Controllers;
 
-import Object.EmployeeLog;
+import Object.*;
 import java.util.ArrayList;
 import java.util.List;
 
