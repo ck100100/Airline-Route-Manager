@@ -56,13 +56,21 @@ public class DateTime {
     public boolean isBefore(DateTime otherDateTime) {
         if(this.year > otherDateTime.year)
             return false;
+        else if(this.year < otherDateTime.year)
+            return true;
         else if(this.month > otherDateTime.month)
             return false;
+        else if(this.month < otherDateTime.month)
+            return true;
         else if(this.day > otherDateTime.day)
             return false;
+        else if(this.day < otherDateTime.day)
+            return true;
         else if(this.hour > otherDateTime.hour)
             return false;
-        else if(this.minute > otherDateTime.minute)
+        else if(this.hour < otherDateTime.hour)
+            return true;
+        else if(this.minute >= otherDateTime.minute)
             return false;
         else
             return true;
