@@ -5,8 +5,16 @@ public class FlightAttendant extends Employee {
     private String seniorityLevel;
     private boolean safetyTrainingCompleted;
 
+    private static int nextFAID = 1;
+    private int flightAttendantID;
+
     public FlightAttendant(String name) {
         super(name);
+        this.flightAttendantID = nextFAID++;
+    }
+
+    public int getFlightAttendantID() {
+        return flightAttendantID;
     }
 
     public String getLanguagesSpoken() {
@@ -38,3 +46,4 @@ public class FlightAttendant extends Employee {
         return super.toString() + " [Flight Attendant]";
     }
 }
+

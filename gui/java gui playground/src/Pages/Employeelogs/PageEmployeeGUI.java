@@ -8,6 +8,8 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class PageEmployeeGUI extends JFrame {
+    private JComboBox<String> filterComboBox;
+
     private ControllerEmployee controller;
     private DefaultListModel<Employee> listModel;
     private JList<Employee> employeeList;
@@ -35,10 +37,15 @@ public class PageEmployeeGUI extends JFrame {
     }
 
     private void initComponents() {
+        filterComboBox = new JComboBox<>(new String[]{"All", "Pilots", "Flight Attendants"});
+        filterComboBox.addActionListener(e -> updateListBasedOnFilter());
+
+
+
         listModel = new DefaultListModel<>();
-        for (Employee e : controller.getAllEmployees()) {
-            listModel.addElement(e);
-        }
+        updateListBasedOnFilter();
+
+
 
         employeeList = new JList<>(listModel);
         employeeList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -67,6 +74,23 @@ public class PageEmployeeGUI extends JFrame {
         add(leftPanel, BorderLayout.WEST);
         add(detailsPanel, BorderLayout.CENTER);
     }
+    private void updateListBasedOnFilter() {
+        listModel.clear();
+        String selected = (String) filterComboBox.getSelectedItem();
+        if ("Pilots".equals(selected)) {
+            for (Pilot p : controller.getAllPilots()) {
+                listModel.addElement(p);
+            }
+        } else if ("Flight Attendants".equals(selected)) {
+            for (FlightAttendant f : controller.getAllFlightAttendants()) {
+                listModel.addElement(f);
+            }
+        } else {
+            for (Employee e : controller.getAllEmployees()) {
+                listModel.addElement(e);
+            }
+        }
+    }
 
     private void updateDetailsPanel(Employee employee) {
         detailsPanel.removeAll();
@@ -78,7 +102,7 @@ public class PageEmployeeGUI extends JFrame {
         }
 
         nameField = new JTextField(employee.getName(), 20);
-        idNumberField = new JTextField(String.valueOf(employee.getIdNumber()), 20);
+        //idNumberField = new JTextField(String.valueOf(employee.getIdNumber()), 20);
         ageField = new JTextField(String.valueOf(employee.getAge()), 20);
         contactField = new JTextField(employee.getContactInfo(), 20);
         jobField = new JTextField(employee.getJob(), 20);
@@ -89,8 +113,9 @@ public class PageEmployeeGUI extends JFrame {
 
         detailsPanel.add(new JLabel("Name:"));
         detailsPanel.add(nameField);
-        detailsPanel.add(new JLabel("ID Number:"));
-        detailsPanel.add(idNumberField);
+       // detailsPanel.add(new JLabel("ID Number:"));
+        //detailsPanel.add(idNumberField);
+
         detailsPanel.add(new JLabel("Age:"));
         detailsPanel.add(ageField);
         detailsPanel.add(new JLabel("Contact:"));
@@ -128,7 +153,7 @@ public class PageEmployeeGUI extends JFrame {
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(ev -> {
             employee.setName(nameField.getText());
-            employee.setIdNumber(Integer.parseInt(idNumberField.getText()));
+          //  employee.setIdNumber(Integer.parseInt(idNumberField.getText()));
             employee.setAge(Integer.parseInt(ageField.getText()));
             employee.setContactInfo(contactField.getText());
             employee.setJob(jobField.getText());
