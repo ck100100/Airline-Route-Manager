@@ -6,7 +6,7 @@ public class Employee {
     private final int employeeID;
     private String name;
     private boolean status;
-    private int idNumber;
+   // private int idNumber;
     private int age;
     private String contactInfo;
     private String job;
@@ -41,13 +41,13 @@ public class Employee {
         this.status = status;
     }
 
-    public int getIdNumber() {
-        return idNumber;
-    }
+   // public int getIdNumber() {
+    //    return idNumber;
+   // }
 
-    public void setIdNumber(int idNumber) {
-        this.idNumber = idNumber;
-    }
+   // public void setIdNumber(int idNumber) {
+   //     this.idNumber = idNumber;
+    //}
 
     public int getAge() {
         return age;
