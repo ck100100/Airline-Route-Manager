@@ -8,7 +8,8 @@ import java.awt.*;
 public class PageAirplaneForm extends JDialog {
     private JTextField nameField, capacityField, loadField, carryOnsField, cargoSizeField,
             rangeField, rowsField, seatsPerRowField, typeField;
-    private JCheckBox activeBox;
+    private JComboBox<AirplaneLog.AirplaneStatus> statusComboBox;
+
 
     private final AirplaneLog airplane;
     private final PageAirplaneGUI parent;
@@ -35,8 +36,16 @@ public class PageAirplaneForm extends JDialog {
         rowsField = new JTextField(String.valueOf(airplane.getNumberOfRows()));
         seatsPerRowField = new JTextField(String.valueOf(airplane.getSeatsPerRow()));
         typeField = new JTextField(airplane.getType() == null ? "" : airplane.getType());
-        activeBox = new JCheckBox("Active");
-        activeBox.setSelected(airplane.isActive());
+        statusComboBox = new JComboBox<>(new AirplaneLog.AirplaneStatus[] {
+                AirplaneLog.AirplaneStatus.active,
+                AirplaneLog.AirplaneStatus.inactive
+        });
+        statusComboBox.setSelectedItem(
+                airplane.getStatus() == AirplaneLog.AirplaneStatus.active
+                        ? AirplaneLog.AirplaneStatus.active
+                        : AirplaneLog.AirplaneStatus.inactive
+        );
+
 
         formPanel.add(new JLabel("Name:"));
         formPanel.add(nameField);
@@ -66,7 +75,7 @@ public class PageAirplaneForm extends JDialog {
         formPanel.add(typeField);
 
         formPanel.add(new JLabel("Status:"));
-        formPanel.add(activeBox);
+        formPanel.add(statusComboBox);
 
         add(formPanel, BorderLayout.CENTER);
 
@@ -116,7 +125,8 @@ public class PageAirplaneForm extends JDialog {
         airplane.setNumberOfRows(Integer.parseInt(rowsField.getText().trim()));
         airplane.setSeatsPerRow(Integer.parseInt(seatsPerRowField.getText().trim()));
         airplane.setType(typeField.getText().trim().toLowerCase());
-        airplane.setActive(activeBox.isSelected());
+        airplane.setStatus((AirplaneLog.AirplaneStatus) statusComboBox.getSelectedItem());
+
     }
 
     private boolean validateFields() {
