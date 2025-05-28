@@ -46,6 +46,14 @@ public class FormDateTimeInput extends JPanel {
         this.add(inputPanel);
     }
 
+    public void setActive(boolean state) {
+        minuteInput.setEnabled(state);
+        hourInput.setEnabled(state);
+        dayInput.setEnabled(state);
+        monthInput.setEnabled(state);
+        yearInput.setEnabled(state);
+    }
+
     public DateTime getValue() throws InvalidInputException {
         try {
             return new DateTime(
