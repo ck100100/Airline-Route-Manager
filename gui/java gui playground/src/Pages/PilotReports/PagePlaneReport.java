@@ -11,6 +11,7 @@ import Object.Flight;
 import Controllers.ControllerFlight;
 import Object.AirplaneLog;
 import utils.Status;
+import utils.AirplaneStatus;
 
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class PagePlaneReport extends MainWindow {
     }
 
     public void onPlaneGround() {
-        selectedPlane.setActive(false);
+        selectedPlane.setStatus(AirplaneStatus.awaitingMaintenance);
         var controller = new ControllerFlight();
         planeFlights = controller.getFlightsByPlaneId(selectedPlane.getId());
         for(Flight flight : planeFlights){

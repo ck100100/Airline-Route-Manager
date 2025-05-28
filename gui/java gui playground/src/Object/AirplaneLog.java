@@ -1,4 +1,5 @@
 package Object;
+import utils.AirplaneStatus;
 
 public class AirplaneLog {
     private static int idCounter = 1;
@@ -12,7 +13,8 @@ public class AirplaneLog {
     private double maxFlightRange;
     private int numberOfRows;
     private int seatsPerRow;
-    private boolean active;
+    private AirplaneStatus airplaneStatus;
+
 
     public AirplaneLog(String name) {
         this.id = idCounter++;
@@ -58,10 +60,18 @@ public class AirplaneLog {
     public int getSeatsPerRow() { return seatsPerRow; }
     public void setSeatsPerRow(int seatsPerRow) { this.seatsPerRow = seatsPerRow; }
 
-    public boolean isActive() { return active; }
+    public AirplaneStatus getStatus() { return airplaneStatus; }
 
     public void setActive(boolean active) {
-        this.active = active;
+        if(active){
+            this.airplaneStatus = AirplaneStatus.active;
+        }
+        else {
+            this.airplaneStatus = AirplaneStatus.inactive;
+        }
+    }
+    public void setStatus(AirplaneStatus status){
+        this.airplaneStatus = status;
     }
 
     @Override

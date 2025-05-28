@@ -1,6 +1,7 @@
 package Pages.Airplanelogs;
 
 import Object.AirplaneLog;
+import utils.AirplaneStatus;
 
 import javax.swing.*;
 import java.awt.*;
@@ -36,7 +37,7 @@ public class PageAirplaneForm extends JDialog {
         seatsPerRowField = new JTextField(String.valueOf(airplane.getSeatsPerRow()));
         typeField = new JTextField(airplane.getType() == null ? "" : airplane.getType());
         activeBox = new JCheckBox("Active");
-        activeBox.setSelected(airplane.isActive());
+        activeBox.setSelected(airplane.getStatus() == AirplaneStatus.active);
 
         formPanel.add(new JLabel("Name:"));
         formPanel.add(nameField);

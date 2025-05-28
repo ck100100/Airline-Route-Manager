@@ -13,6 +13,7 @@ import java.util.List;
 
 import Controllers.ControllerAirplane;
 import Object.AirplaneLog;
+import utils.AirplaneStatus;
 
 public class PageAvailablePlanes extends MainWindow {
     private JTable table;
@@ -49,7 +50,7 @@ public class PageAvailablePlanes extends MainWindow {
         };
         table = new JTable(tableModel);
         for(AirplaneLog plane : controllerAirplane.getAllAirplanes()) {
-            if(plane.isActive()){
+            if(plane.getStatus() == AirplaneStatus.active){
                 activePlaneList.add(plane);
                 tableModel.addRow(new Object[]{
                         plane.getId(),
