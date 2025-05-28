@@ -31,6 +31,24 @@ public class ControllerAirplane {
         return a;
     }
 
+    public AirplaneLog getAirplaneByID(Integer airplaneID) {
+        boolean found = false;
+        int i = 0;
+        AirplaneLog currAirplane = null;
+        while(!found && i < airplanes.size()) {
+            currAirplane = airplanes.get(i);
+            if(currAirplane.getId() == airplaneID)
+                found = true;
+            else
+                i++;
+        }
+        if(found)
+            return currAirplane;
+        else
+            return null;
+
+    }
+
 
     public void addAirplane(AirplaneLog airplane) {
         airplanes.add(airplane);
