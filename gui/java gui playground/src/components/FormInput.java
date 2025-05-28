@@ -6,14 +6,14 @@ import java.awt.*;
 
 public class FormInput extends JPanel {
     private JTextField inputBox;
+
     public FormInput(String labelText, boolean enabled, String defaultValue) {
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(new EmptyBorder(10, 0, 10, 0));
 
-        JLabel label = new FormLabel(labelText);
+        JLabel label = new JLabel(labelText); // Replace FormLabel with JLabel
 
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
-//        label.setBorder(new EmptyBorder(0, 0, 10, 0));
         inputBox = new JTextField(defaultValue);
         inputBox.setPreferredSize(new Dimension(350, 30));
         inputBox.setEnabled(enabled);
@@ -22,7 +22,7 @@ public class FormInput extends JPanel {
         this.add(inputBox);
     }
 
-    public void setActive(boolean state){
+    public void setActive(boolean state) {
         inputBox.setEnabled(state);
     }
 
@@ -31,8 +31,9 @@ public class FormInput extends JPanel {
     }
 
     public String getText() throws Exception {
-        if(validateInput() == false)
+        if (!validateInput()) {
             throw new Exception("Invalid input...");
+        }
         return inputBox.getText();
     }
 }

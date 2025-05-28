@@ -31,4 +31,7 @@ public class PanelCentered {
     public void attatch(JComponent parentComponent) {
         parentComponent.add(panelOuter);
     }
+
+    public void attatch(Container contentPane) {
+    }
 }

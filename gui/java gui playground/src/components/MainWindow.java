@@ -1,9 +1,5 @@
 package components;
 
-import components.ButtonFactory;
-import components.FormInput;
-import components.PanelCentered;
-
 import javax.swing.*;
 import java.awt.*;
 import utils.Colors;
@@ -14,7 +10,7 @@ public abstract class MainWindow {
 
     private final int headerHeight = 100;
 
-    public MainWindow(String title) {
+    public MainWindow(String title, int i, int i1) {
         this.title = title;
         initialise();
     }
