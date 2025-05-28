@@ -4,6 +4,7 @@ import utils.Status;
 import utils.DateTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ControllerFlight {
@@ -65,25 +66,106 @@ public class ControllerFlight {
         return planeFlights;
     }
 
-    private Flight getFlightAfterDate(DateTime dateTime, AirplaneLog airplane) {
+    public void fileFlight(Flight newFlight) {
+        flightList.add(newFlight);
+    }
+
+    private Flight getFlightBeforeDate(DateTime dateTime, AirplaneLog airplane) {
         Flight earliestFlight = null;
         for(int i=0; i < flightList.size(); i++) {
             Flight currentFlight = flightList.get(i);
-            if(currentFlight.airplaneID != airplane.getId() || currentFlight.departureTime.isBeforeOrEqual(dateTime))
+            if(currentFlight.airplaneID != airplane.getId() || !currentFlight.departureTime.isBefore(dateTime))
                 continue;
 
-            if(earliestFlight != null && currentFlight.departureTime.isBefore(earliestFlight.departureTime))
+            if(earliestFlight == null || currentFlight.departureTime.isBefore(earliestFlight.departureTime))
                 earliestFlight = currentFlight;
         }
 
         return earliestFlight;
     }
 
+    private boolean hasOverlappingFlights(Flight flightToCheck) {
+        for(Flight currentFlight: flightList) {
+            boolean equalEntities = currentFlight.airplaneID != flightToCheck.airplaneID
+                    || containsMutualItem((ArrayList<Integer>) currentFlight.pilotListID, (ArrayList<Integer>) flightToCheck.pilotListID)
+                    || containsMutualItem((ArrayList<Integer>) currentFlight.flightAttendantIDLlist, (ArrayList<Integer>) flightToCheck.flightAttendantIDLlist);
+            if(equalEntities) {
+                boolean hasNoOverlap = currentFlight.arrivalTime.isBefore(flightToCheck.departureTime)
+                        && flightToCheck.arrivalTime.isBefore(currentFlight.departureTime);
+                if(hasNoOverlap == false)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isPlaneAvailable(Flight flightToCheck, AirplaneLog airplane) {
+        for(Flight currentFlight: flightList) {
+            boolean equalEntities = currentFlight.airplaneID != airplane.getId();
+            if(equalEntities) {
+                boolean hasNoOverlap = currentFlight.arrivalTime.isBefore(flightToCheck.departureTime)
+                        && flightToCheck.arrivalTime.isBefore(currentFlight.departureTime);
+                if(hasNoOverlap == false)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isFlightAttendantAvailable(Flight flightToCheck, FlightAttendant flightAttendant) {
+        Integer[] fl = {flightAttendant.getIdNumber()};
+        for(Flight currentFlight: flightList) {
+            boolean equalEntities = containsMutualItem((ArrayList<Integer>) currentFlight.flightAttendantIDLlist, new ArrayList<>(Arrays.asList(fl)));
+            if(equalEntities) {
+                boolean hasNoOverlap = currentFlight.arrivalTime.isBefore(flightToCheck.departureTime)
+                        && flightToCheck.arrivalTime.isBefore(currentFlight.departureTime);
+                if(hasNoOverlap == false)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean isPilotAvailable(Flight flightToCheck, Pilot pilot) {
+        Integer[] pl = {pilot.getIdNumber()};
+        for(Flight currentFlight: flightList) {
+            boolean equalEntities = containsMutualItem((ArrayList<Integer>) currentFlight.pilotListID, new ArrayList<>(Arrays.asList(pl)));
+            if(equalEntities) {
+                boolean hasNoOverlap = currentFlight.arrivalTime.isBefore(flightToCheck.departureTime)
+                        && flightToCheck.arrivalTime.isBefore(currentFlight.departureTime);
+                if(hasNoOverlap == false)
+                    return false;
+            }
+        }
+        return true;
+    }
+
+
+    private boolean containsMutualItem(ArrayList<Integer> list1, ArrayList<Integer> list2) {
+        for(Integer item1: list1)
+            for(Integer item2: list2) {
+                if (item1 == item2)
+                    return true;
+            }
+        return false;
+    }
+
+    private List<Flight> getFlightsBeforeDate(DateTime dateTime, AirplaneLog airplane) {
+        ArrayList<Flight> flightsBeforeDate = new ArrayList<>();
+        for(int i=0; i < flightList.size(); i++) {
+            Flight currentFlight = flightList.get(i);
+            if(currentFlight.airplaneID != airplane.getId() || currentFlight.arrivalTime.isBeforeOrEqual(dateTime))
+                flightsBeforeDate.add(currentFlight);
+        }
+
+        return flightsBeforeDate;
+    }
+
     private List<Flight> getFlightsAfterDate(DateTime dateTime, AirplaneLog airplane) {
         ArrayList<Flight> flightsAfterDate = new ArrayList<>();
         for(int i=0; i < flightList.size(); i++) {
             Flight currentFlight = flightList.get(i);
-            if(currentFlight.airplaneID != airplane.getId() || currentFlight.arrivalTime.isBeforeOrEqual(dateTime))
+            if(currentFlight.airplaneID != airplane.getId() || !currentFlight.arrivalTime.isBefore(dateTime))
                 flightsAfterDate.add(currentFlight);
         }
 
