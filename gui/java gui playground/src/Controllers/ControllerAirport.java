@@ -42,4 +42,21 @@ public class ControllerAirport {
     public List<AirportLog> getAllAirports() {
         return airports;
     }
+
+    public AirportLog getAirportByID(Integer airportID) {
+        boolean found = false;
+        int i = 0;
+        AirportLog currAirport = null;
+        while(!found && i < airports.size()) {
+            currAirport = airports.get(i);
+            if(currAirport.getAirportID() == airportID)
+                found = true;
+            else
+                i++;
+        }
+        if(found)
+            return currAirport;
+        else
+            return null;
+    }
 }
