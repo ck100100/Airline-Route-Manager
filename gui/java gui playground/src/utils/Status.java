@@ -8,5 +8,6 @@ public enum Status {
     cancelled,
     critical,
     normal,
-    medium
+    medium,
+    completed
 }

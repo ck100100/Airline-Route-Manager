@@ -79,6 +79,17 @@ public class ControllerFlight {
         return earliestFlight;
     }
 
+    private List<Flight> getFlightsAfterDate(DateTime dateTime, AirplaneLog airplane) {
+        ArrayList<Flight> flightsAfterDate = new ArrayList<>();
+        for(int i=0; i < flightList.size(); i++) {
+            Flight currentFlight = flightList.get(i);
+            if(currentFlight.airplaneID != airplane.getId() || currentFlight.arrivalTime.isBeforeOrEqual(dateTime))
+                flightsAfterDate.add(currentFlight);
+        }
+
+        return flightsAfterDate;
+    }
+
     private void generateMockData() {
         var f1 = new Flight();
         f1.setBasicDetails(

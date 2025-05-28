@@ -1,12 +1,14 @@
 package utils;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 public class DateTime {
     public int minute;
     public int hour;
     public int day;
     public int month;
     public int year;
-    public LocalDate currDate;
     public DateTime(Integer minute, Integer hour, Integer day, Integer month, Integer year) throws IllegalArgumentException {
         this.minute = minute;
         this.hour = hour;
@@ -88,8 +90,14 @@ public class DateTime {
     public boolean isBeforeOrEqual(DateTime otherDateTime) {
         return isEqual(otherDateTime) || isBefore(otherDateTime);
     }
-
-    public static DateTime getcurrDate(){
-
+    public static DateTime now() {
+        LocalDateTime time = LocalDateTime.now();
+        return new DateTime(
+                time.getMinute(),
+                time.getHour(),
+                time.getDayOfMonth(),
+                time.getMonthValue(),
+                time.getYear()
+        );
     }
 }

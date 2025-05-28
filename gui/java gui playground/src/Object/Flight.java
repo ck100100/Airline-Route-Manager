@@ -1,8 +1,8 @@
 package Object;
 
+import Controllers.ControllerAirplane;
 import Controllers.ControllerFlight;
-import utils.DateTime;
-import utils.Status;
+import utils.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +35,12 @@ public class Flight {
         calculateStatus();
     }
 
-    public void calculateStatus() {
+    public Status getStatus(ControllerAirplane controllerAirplane) {
+        if(arrivalTime.isBefore(DateTime.now())) {
+            status = Status.completed;
+            return status;
+        }
+
         boolean isNonApproved =
                 flightNumber != ""
                 && departureTime != null
@@ -49,6 +54,12 @@ public class Flight {
                 && airplaneID != null
                 && hasEnoughFlightAttendants()
                 && hasEnoughPilots();
+
+        AirplaneLog airplane = controllerAirplane.getAirplaneByID(airplaneID);
+        if(airplane.getStatus() == AirplaneStatus.maintenanceApproved || airplane.getStatus() == AirplaneStatus.awaitingMaintenance) {
+            status = Status.cancelled;
+            return status;
+        }
 
         if (isApproved)
             status = Status.approved;
