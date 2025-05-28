@@ -11,13 +11,32 @@ public class ControllerEmployee {
         employees = new ArrayList<>();
         generateMockData();
     }
+    public List<Pilot> getAllPilots() {
+        List<Pilot> pilots = new ArrayList<>();
+        for (Employee e : employees) {
+            if (e instanceof Pilot) {
+                pilots.add((Pilot) e);
+            }
+        }
+        return pilots;
+    }
+
+    public List<FlightAttendant> getAllFlightAttendants() {
+        List<FlightAttendant> fas = new ArrayList<>();
+        for (Employee e : employees) {
+            if (e instanceof FlightAttendant) {
+                fas.add((FlightAttendant) e);
+            }
+        }
+        return fas;
+    }
 
     private Employee makeEmployee(String name, boolean status, int idNumber, int age,
                                   String contactInfo, String job, String extraDuties,
                                   float salary, String workingHours) {
         Employee e = new Employee(name);
         e.setStatus(status);
-        e.setIdNumber(idNumber);
+     //   e.setIdNumber(idNumber);
         e.setAge(age);
         e.setContactInfo(contactInfo);
         e.setJob(job);
@@ -38,6 +57,31 @@ public class ControllerEmployee {
     public List<Employee> getAllEmployees() {
         return employees;
     }
+
+    public Pilot getPilotByID(int pilotID) {
+        for (Employee e : employees) {
+            if (e instanceof Pilot) {
+                Pilot p = (Pilot) e;
+                if (p.getPilotID() == pilotID) {
+                    return p;
+                }
+            }
+        }
+        return null;
+    }
+
+    public FlightAttendant getFlightAttendantByID(int flightAttendantID) {
+        for (Employee e : employees) {
+            if (e instanceof FlightAttendant) {
+                FlightAttendant f = (FlightAttendant) e;
+                if (f.getFlightAttendantID() == flightAttendantID) {
+                    return f;
+                }
+            }
+        }
+        return null;
+    }
+
 
     private void generateMockData() {
         Pilot p1 = new Pilot("Captain Mike");
