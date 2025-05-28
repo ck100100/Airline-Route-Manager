@@ -65,6 +65,8 @@ public class Flight {
             status = Status.non_approved;
         else
             status = Status.draft;
+
+        return status;
     }
 
     public boolean setAirplaneID(Integer airplaneID) {
