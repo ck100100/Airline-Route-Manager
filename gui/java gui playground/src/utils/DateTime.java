@@ -90,6 +90,7 @@ public class DateTime {
     public boolean isBeforeOrEqual(DateTime otherDateTime) {
         return isEqual(otherDateTime) || isBefore(otherDateTime);
     }
+
     public static DateTime now() {
         LocalDateTime time = LocalDateTime.now();
         return new DateTime(
