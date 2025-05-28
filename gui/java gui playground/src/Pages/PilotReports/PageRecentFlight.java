@@ -11,6 +11,9 @@ import java.util.List;
 import Controllers.ControllerFlight;
 import Object.Flight;
 import Object.AirplaneLog;
+import utils.DateTime;
+
+import java.time.LocalDateTime;
 
 public class PageRecentFlight extends MainWindow {
     private AirplaneLog plane;
@@ -45,7 +48,9 @@ public class PageRecentFlight extends MainWindow {
             }
         };
         var controller = new ControllerFlight();
-        planeFlights = controller.getFlightsByPlaneId(plane.getId());
+        LocalDateTime currDateTime = LocalDateTime.now();
+        DateTime dateTime = new DateTime(currDateTime.getMinute(), currDateTime.getHour(), currDateTime.getDayOfMonth(),currDateTime.getMonthValue(),currDateTime.getYear());
+        planeFlights = controller.getFlightAfterDate(dateTime,plane);
         for(Flight flight : planeFlights){
             Object[] row = {flight.flightNumber};
             tableModel.addRow(row);

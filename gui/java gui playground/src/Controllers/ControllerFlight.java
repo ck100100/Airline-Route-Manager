@@ -4,7 +4,6 @@ import utils.Status;
 import utils.DateTime;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class ControllerFlight {
@@ -66,18 +65,14 @@ public class ControllerFlight {
         return planeFlights;
     }
 
-    public void fileFlight(Flight newFlight) {
-        flightList.add(newFlight);
-    }
-
-    private Flight getFlightBeforeDate(DateTime dateTime, AirplaneLog airplane) {
+    private Flight getFlightAfterDate(DateTime dateTime, AirplaneLog airplane) {
         Flight earliestFlight = null;
         for(int i=0; i < flightList.size(); i++) {
             Flight currentFlight = flightList.get(i);
-            if(currentFlight.airplaneID != airplane.getId() || !currentFlight.departureTime.isBefore(dateTime))
+            if(currentFlight.airplaneID != airplane.getId() || currentFlight.departureTime.isBeforeOrEqual(dateTime))
                 continue;
 
-            if(earliestFlight == null || currentFlight.departureTime.isBefore(earliestFlight.departureTime))
+            if(earliestFlight != null && currentFlight.departureTime.isBefore(earliestFlight.departureTime))
                 earliestFlight = currentFlight;
         }
 
