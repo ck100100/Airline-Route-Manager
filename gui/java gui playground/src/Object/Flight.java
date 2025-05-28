@@ -31,8 +31,6 @@ public class Flight {
         this.departureAirportID = depAirportID;
         this.arrivalTime = arrTime;
         this.arrivalAirportID = arrAirportID;
-
-        calculateStatus();
     }
 
     public Status getStatus(ControllerAirplane controllerAirplane) {
