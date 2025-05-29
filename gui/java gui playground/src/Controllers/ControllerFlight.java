@@ -57,6 +57,30 @@ public class ControllerFlight {
         }
         return item;
     }
+
+    public List<Flight> getFlights(int departureAirportID, int arrivalAirportID, DateTime flightDate) {
+        ArrayList<Flight> newFlightList = new ArrayList<>();
+        flightDate.hour = 0;
+        flightDate.minute = 0;
+        DateTime nextDay = new DateTime(
+                flightDate.minute,
+                flightDate.hour,
+                flightDate.day + 1,
+                flightDate.month,
+                flightDate.year
+        );
+        for(Flight flight : flightList) {
+            boolean includeFlight = departureAirportID == flight.departureAirportID
+                    && arrivalAirportID == flight.arrivalAirportID
+                    && flightDate.isBeforeOrEqual(flight.departureTime)
+                    && flight.departureTime.isBefore(nextDay);
+            if(includeFlight)
+                newFlightList.add(flight);
+        }
+
+        return newFlightList;
+    }
+
     public List<Flight> getFlightsByPlaneId(int planeId){
         List<Flight> planeFlights = new ArrayList<>();
         for(Flight flight : flightList){
@@ -178,10 +202,10 @@ public class ControllerFlight {
         var f1 = new Flight();
         f1.setBasicDetails(
             "A1234",
-            3,
-            new DateTime(0, 14, 10, 1, 2025),
-            10,
-            new DateTime(0, 14, 10, 2, 2025)
+            1,
+            new DateTime(0, 14, 10, 10, 2025),
+            2,
+            new DateTime(0, 14, 10, 10, 2025)
         );
         f1.airplaneID = 14;
         var report = new FlightReport();
