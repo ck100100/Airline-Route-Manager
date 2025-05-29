@@ -28,7 +28,7 @@ public class PageEmployeeGUI extends JFrame {
 
     public PageEmployeeGUI() {
         setTitle("Employee Logs");
-        setSize(800, 500);
+        setSize(600, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
@@ -63,16 +63,20 @@ public class PageEmployeeGUI extends JFrame {
         detailsPanel.setLayout(new BoxLayout(detailsPanel, BoxLayout.Y_AXIS));
         updateDetailsPanel(null); // no selection
 
-        employeeList.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                Employee selected = employeeList.getSelectedValue();
-                updateDetailsPanel(selected);
+        employeeList.addMouseListener(new MouseAdapter() {
+            public void mouseClicked(MouseEvent e) {
+                if (e.getClickCount() == 2) { // double-click
+                    Employee selected = employeeList.getSelectedValue();
+                    if (selected != null) {
+                        showEmployeePopup(selected);
+                    }
+                }
             }
         });
 
         setLayout(new BorderLayout());
         add(leftPanel, BorderLayout.WEST);
-        add(detailsPanel, BorderLayout.CENTER);
+
     }
     private void updateListBasedOnFilter() {
         listModel.clear();
@@ -113,7 +117,7 @@ public class PageEmployeeGUI extends JFrame {
 
         detailsPanel.add(new JLabel("Name:"));
         detailsPanel.add(nameField);
-       // detailsPanel.add(new JLabel("ID Number:"));
+        // detailsPanel.add(new JLabel("ID Number:"));
         //detailsPanel.add(idNumberField);
 
         detailsPanel.add(new JLabel("Age:"));
@@ -153,7 +157,7 @@ public class PageEmployeeGUI extends JFrame {
         JButton saveButton = new JButton("Save");
         saveButton.addActionListener(ev -> {
             employee.setName(nameField.getText());
-          //  employee.setIdNumber(Integer.parseInt(idNumberField.getText()));
+            //  employee.setIdNumber(Integer.parseInt(idNumberField.getText()));
             employee.setAge(Integer.parseInt(ageField.getText()));
             employee.setContactInfo(contactField.getText());
             employee.setJob(jobField.getText());
@@ -189,6 +193,114 @@ public class PageEmployeeGUI extends JFrame {
         detailsPanel.revalidate();
         detailsPanel.repaint();
     }
+    private void showEmployeePopup(Employee employee) {
+        JDialog dialog = new JDialog(this, "Employee Details", true);
+        dialog.setSize(450, 500);
+        dialog.setLocationRelativeTo(this);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        nameField = new JTextField(employee.getName(), 20);
+        ageField = new JTextField(String.valueOf(employee.getAge()), 20);
+        contactField = new JTextField(employee.getContactInfo(), 20);
+        jobField = new JTextField(employee.getJob(), 20);
+        dutiesField = new JTextField(employee.getExtraDuties(), 20);
+        salaryField = new JTextField(String.valueOf(employee.getSalary()), 20);
+        hoursField = new JTextField(employee.getWorkingHours(), 20);
+        statusBox = new JCheckBox("Active", employee.isStatus());
+
+        panel.add(new JLabel("Name:")); panel.add(nameField);
+        panel.add(new JLabel("Age:")); panel.add(ageField);
+        panel.add(new JLabel("Contact:")); panel.add(contactField);
+        panel.add(new JLabel("Job:")); panel.add(jobField);
+        panel.add(new JLabel("Extra Duties:")); panel.add(dutiesField);
+        panel.add(new JLabel("Salary:")); panel.add(salaryField);
+        panel.add(new JLabel("Working Hours:")); panel.add(hoursField);
+        panel.add(statusBox);
+
+        if (employee instanceof Pilot) {
+            Pilot p = (Pilot) employee;
+            certField = new JTextField(p.getPlaneCertification(), 20);
+            hoursFlownField = new JTextField(String.valueOf(p.getFlightHours()), 20);
+            panel.add(new JLabel("Certification:")); panel.add(certField);
+            panel.add(new JLabel("Flight Hours:")); panel.add(hoursFlownField);
+        } else if (employee instanceof FlightAttendant) {
+            FlightAttendant f = (FlightAttendant) employee;
+            languagesField = new JTextField(f.getLanguagesSpoken(), 20);
+            seniorityField = new JTextField(f.getSeniorityLevel(), 20);
+            safetyBox = new JCheckBox("Safety Training Completed", f.isSafetyTrainingCompleted());
+            panel.add(new JLabel("Languages:")); panel.add(languagesField);
+            panel.add(new JLabel("Seniority:")); panel.add(seniorityField);
+            panel.add(safetyBox);
+        }
+
+        JButton saveButton = new JButton("Save");
+        JButton cancelButton = new JButton("Cancel");
+        JButton deleteButton = new JButton("Delete");
+
+        saveButton.addActionListener(ev -> {
+            try {
+                int age = Integer.parseInt(ageField.getText());
+                float salary = Float.parseFloat(salaryField.getText());
+                if (age <= 0 || salary < 0) {
+                    throw new IllegalArgumentException("Age must be positive and salary non-negative.");
+                }
+
+                if (employee instanceof Pilot) {
+                    int hours = Integer.parseInt(hoursFlownField.getText());
+                    if (hours < 0) throw new IllegalArgumentException("Flight hours must be non-negative.");
+                }
+
+                employee.setName(nameField.getText());
+                employee.setAge(age);
+                employee.setContactInfo(contactField.getText());
+                employee.setJob(jobField.getText());
+                employee.setExtraDuties(dutiesField.getText());
+                employee.setSalary(salary);
+                employee.setWorkingHours(hoursField.getText());
+                employee.setStatus(statusBox.isSelected());
+
+                if (employee instanceof Pilot) {
+                    ((Pilot) employee).setPlaneCertification(certField.getText());
+                    ((Pilot) employee).setFlightHours(Integer.parseInt(hoursFlownField.getText()));
+                } else if (employee instanceof FlightAttendant) {
+                    ((FlightAttendant) employee).setLanguagesSpoken(languagesField.getText());
+                    ((FlightAttendant) employee).setSeniorityLevel(seniorityField.getText());
+                    ((FlightAttendant) employee).setSafetyTrainingCompleted(safetyBox.isSelected());
+                }
+
+                employeeList.repaint();
+                JOptionPane.showMessageDialog(dialog, "Changes saved successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dialog.dispose();
+
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(dialog, "Please enter valid numeric values for age, salary, and flight hours.", "Invalid Input", JOptionPane.WARNING_MESSAGE);
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(dialog, ex.getMessage(), "Validation Error", JOptionPane.WARNING_MESSAGE);
+            }
+        });
+
+        cancelButton.addActionListener(e -> dialog.dispose());
+
+        deleteButton.addActionListener(ev -> {
+            controller.removeEmployee(employee);
+            listModel.removeElement(employee);
+            dialog.dispose();
+        });
+
+        JPanel btnPanel = new JPanel();
+        btnPanel.add(saveButton);
+        btnPanel.add(cancelButton);
+        btnPanel.add(deleteButton);
+
+        panel.add(Box.createVerticalStrut(10));
+        panel.add(btnPanel);
+
+        JScrollPane scrollPane = new JScrollPane(panel);
+        dialog.add(scrollPane);
+        dialog.setVisible(true);
+    }
 
     private void showAddDialog() {
         String[] types = {"Employee", "Pilot", "Flight Attendant"};
@@ -210,7 +322,4 @@ public class PageEmployeeGUI extends JFrame {
         listModel.addElement(newEmp);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PageEmployeeGUI().setVisible(true));
-    }
 }
