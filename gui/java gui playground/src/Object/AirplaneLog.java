@@ -1,5 +1,6 @@
 package Object;
 import utils.AirplaneStatus;
+import utils.DateTime;
 
 public class AirplaneLog {
     private static int idCounter = 1;
@@ -14,6 +15,8 @@ public class AirplaneLog {
     private int numberOfRows;
     private int seatsPerRow;
     private AirplaneStatus airplaneStatus;
+    private int groundFlightID;
+    private DateTime finishMaintenanceDate;
 
 
     public AirplaneLog(String name) {
@@ -35,6 +38,20 @@ public class AirplaneLog {
         this.type = type.toLowerCase();
     }
 
+    public void setFinishMaintenanceDate(DateTime dateTime){
+        this.finishMaintenanceDate = dateTime;
+    }
+    public DateTime getFinishMaintenanceDate(){
+        return this.finishMaintenanceDate;
+    }
+
+    public void setGroundFlightID(int flightID){
+        this.groundFlightID = flightID;
+    }
+
+    public int getGroundFlightID(){
+        return this.groundFlightID;
+    }
 
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
@@ -69,6 +86,11 @@ public class AirplaneLog {
         else {
             this.airplaneStatus = AirplaneStatus.inactive;
         }
+    }
+    public boolean isAirplaneOperable(DateTime dateTime){
+        if(this.airplaneStatus == AirplaneStatus.maintenanceApproved && !dateTime.isBefore(this.finishMaintenanceDate)){
+            return true;
+        } else return this.airplaneStatus == AirplaneStatus.active;
     }
     public void setStatus(AirplaneStatus status){
         this.airplaneStatus = status;

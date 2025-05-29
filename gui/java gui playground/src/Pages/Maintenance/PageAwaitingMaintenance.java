@@ -1,6 +1,6 @@
-package Pages.PilotReports;
+package Pages.Maintenance;
 
-import Controllers.ControllerAirplane;
+import Controllers.Airline;
 import components.MainWindow;
 
 import javax.swing.*;
@@ -8,43 +8,36 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import Controllers.ControllerAirplane;
 import Object.AirplaneLog;
 import utils.AirplaneStatus;
-import utils.DateTime;
 
-public class PageAvailablePlanes extends MainWindow {
+public class PageAwaitingMaintenance extends MainWindow {
     private JTable table;
     private DefaultTableModel tableModel;
-    private final ControllerAirplane controllerAirplane;
-    private List<AirplaneLog> activePlaneList = new ArrayList<>();
-
-    public PageAvailablePlanes(ControllerAirplane controllerAirplane) {
-
-        super("Available Planes");
-        this.controllerAirplane = controllerAirplane;
+    public Airline airline;
+    private List<AirplaneLog> awaitingMaintenancePlanes = new ArrayList<>();
+    public PageAwaitingMaintenance(Airline airline){
+        super("Planes Awaiting Maintenance");
+        this.airline = airline;
     }
 
     @Override
-    protected JPanel generateBody() {
+    protected JPanel generateBody(){
         var panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.X_AXIS));
-
         panel.add(generateTable());
         panel.add(generateButtons());
 
         return panel;
     }
 
-    protected JPanel generateTable() {
-        var panel = new JPanel();
+    protected JPanel generateTable(){
+        var panel  = new JPanel();
         panel.setLayout(new BorderLayout());
         String[] columnNames = {"ID","Name","Type","Capacity"};
-
         tableModel = new DefaultTableModel(columnNames,0){
             @Override
             public boolean isCellEditable(int row, int column){
@@ -52,12 +45,9 @@ public class PageAvailablePlanes extends MainWindow {
             }
         };
         table = new JTable(tableModel);
-        LocalDateTime currDateTime = LocalDateTime.now();
-        DateTime dateTime = new DateTime(currDateTime.getMinute(), currDateTime.getHour(),
-                currDateTime.getDayOfMonth(),currDateTime.getMonthValue(),currDateTime.getYear());
-        for(AirplaneLog plane : controllerAirplane.getAllAirplanes()) {
-            if(plane.isAirplaneOperable(dateTime)){
-                activePlaneList.add(plane);
+        for(AirplaneLog plane : airline.controllerAirplane.getAllAirplanes()){
+            if(plane.getStatus() == AirplaneStatus.awaitingMaintenance){
+                awaitingMaintenancePlanes.add(plane);
                 tableModel.addRow(new Object[]{
                         plane.getId(),
                         plane.getName(),
@@ -66,7 +56,6 @@ public class PageAvailablePlanes extends MainWindow {
                 });
             }
         }
-
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane);
 
@@ -95,16 +84,19 @@ public class PageAvailablePlanes extends MainWindow {
         panel.add(cancelBtn);
         return panel;
     }
-
     public void onCancel() {
         closeWindow();
     }
-
-    public void onSelect() {
+    public void onSelect(){
         int selectedRow = table.getSelectedRow();
-        AirplaneLog plane = activePlaneList.get(selectedRow);
-        var PlaneFlights = new PageRecentFlight(plane);
-        PlaneFlights.show();
-    }
-}
 
+        if(selectedRow == -1){
+            JOptionPane.showMessageDialog(null,"You have to select a plane to continue");
+            return;
+        }
+        AirplaneLog plane = awaitingMaintenancePlanes.get(selectedRow);
+        var PageFlights = new PageFutureFlights(plane,airline);
+        PageFlights.show();
+    }
+
+}

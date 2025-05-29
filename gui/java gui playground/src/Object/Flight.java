@@ -67,6 +67,7 @@ public class Flight {
             status = Status.draft;
 
         return status;
+
     }
 
     public boolean setAirplaneID(Integer airplaneID) {

@@ -10,9 +10,11 @@ import java.awt.event.ActionListener;
 import Object.Flight;
 import Controllers.ControllerFlight;
 import Object.AirplaneLog;
+import utils.DateTime;
 import utils.Status;
 import utils.AirplaneStatus;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class PagePlaneReport extends MainWindow {
@@ -92,8 +94,12 @@ public class PagePlaneReport extends MainWindow {
 
     public void onPlaneGround() {
         selectedPlane.setStatus(AirplaneStatus.awaitingMaintenance);
+        selectedPlane.setGroundFlightID(selectedFlight.flightID);
         var controller = new ControllerFlight();
-        planeFlights = controller.getFlightsByPlaneId(selectedPlane.getId());
+        LocalDateTime currDateTime = LocalDateTime.now();
+        DateTime dateTime = new DateTime(currDateTime.getMinute(), currDateTime.getHour(),
+                currDateTime.getDayOfMonth(),currDateTime.getMonthValue(),currDateTime.getYear());
+        planeFlights = controller.getFlightsAfterDate(dateTime,selectedPlane);
         for(Flight flight : planeFlights){
             if(flight.status == Status.approved ){
                 flight.status = Status.cancelled;

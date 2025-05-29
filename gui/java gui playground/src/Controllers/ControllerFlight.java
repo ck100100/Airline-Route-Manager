@@ -147,11 +147,11 @@ public class ControllerFlight {
         return false;
     }
 
-    private List<Flight> getFlightsBeforeDate(DateTime dateTime, AirplaneLog airplane) {
+    public List<Flight> getFlightsBeforeDate(DateTime dateTime, AirplaneLog airplane) {
         ArrayList<Flight> flightsBeforeDate = new ArrayList<>();
         for(int i=0; i < flightList.size(); i++) {
             Flight currentFlight = flightList.get(i);
-            if(currentFlight.airplaneID != airplane.getId() || currentFlight.arrivalTime.isBeforeOrEqual(dateTime))
+            if(currentFlight.airplaneID == airplane.getId() && currentFlight.arrivalTime.isBeforeOrEqual(dateTime))
                 flightsBeforeDate.add(currentFlight);
         }
 
@@ -162,7 +162,7 @@ public class ControllerFlight {
         ArrayList<Flight> flightsAfterDate = new ArrayList<>();
         for(int i=0; i < flightList.size(); i++) {
             Flight currentFlight = flightList.get(i);
-            if(currentFlight.airplaneID != airplane.getId() || !currentFlight.arrivalTime.isBefore(dateTime))
+            if(currentFlight.airplaneID == airplane.getId() && !currentFlight.arrivalTime.isBefore(dateTime))
                 flightsAfterDate.add(currentFlight);
         }
 
@@ -178,12 +178,12 @@ public class ControllerFlight {
         var f1 = new Flight();
         f1.setBasicDetails(
             "A1234",
-            1,
+            3,
             new DateTime(0, 14, 10, 1, 2025),
-            1,
+            10,
             new DateTime(0, 14, 10, 2, 2025)
         );
-        f1.airplaneID = 2;
+        f1.airplaneID = 14;
         var report = new FlightReport();
         report.createReport(Status.normal, "lksfrngkf");
         f1.report = report;
@@ -193,8 +193,25 @@ public class ControllerFlight {
         f1.pricePerSeat = 10.0;
         f1.flightAttendantIDLlist = new ArrayList<>();
         f1.pilotListID = new ArrayList<>();
+        f1.flightID = 20;
 
-        fileFlight(f1);
+        var f2 = new Flight();
+        f2.setBasicDetails(
+                "A1235",
+                3,
+                new DateTime(0, 14, 10, 10, 2025),
+                10,
+                new DateTime(0, 14, 10, 11, 2025)
+        );
+        f2.airplaneID = 14;
+        f2.arrivalAirportID = 1;
+        f2.departureAirportID = 2;
+        f2.status = Status.approved;
+
+
+
+        flightList.add(f1);
+        flightList.add(f2);
 
     }
 }
