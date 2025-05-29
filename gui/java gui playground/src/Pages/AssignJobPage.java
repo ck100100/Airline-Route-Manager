@@ -69,7 +69,7 @@ public class AssignJobPage extends JFrame {
         // Button Actions
         cancelButton.addActionListener(e -> {
             dispose();
-           // Main.showPageSelectionDialog();
+            Main.showPageSelectionDialog();
         });
 
         submitButton.addActionListener(e -> {
