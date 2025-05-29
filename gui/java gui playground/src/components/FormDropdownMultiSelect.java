@@ -33,8 +33,11 @@ public class FormDropdownMultiSelect extends JPanel {
         listPanel.setSize(new Dimension(500, 200));
 
         if(alreadySelectedItems != null)
-            for(String item : alreadySelectedItems)
+            for(String item : alreadySelectedItems) {
                 addListItem(item);
+                selectedItems.add(item);
+            }
+
 
         add(labelPanel);
         add(generateDropdown(options));
@@ -130,10 +133,6 @@ public class FormDropdownMultiSelect extends JPanel {
             throw new Exception("Unnable to add duplicate items");
 
         return (String) dropdown.getSelectedItem();
-    }
-
-    public int getSelectedIndex() {
-        return dropdown.getSelectedIndex() - 1;
     }
 
     public ArrayList<Integer> getSelectedItemIndexes() throws Exception {
