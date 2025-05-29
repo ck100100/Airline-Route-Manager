@@ -3,7 +3,6 @@ package Pages;
 import components.ButtonFactory;
 import Object.Job;
 import Controllers.JobController;
-import main.Main;
 import utils.Colors;
 
 import javax.swing.*;

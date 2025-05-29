@@ -29,8 +29,9 @@ public class Main {
                 main.show();
             }
         });
+    }
 
-        public static void showPageSelectionDialog() {
+    public void showPageSelectionDialog() {
         int choice = JOptionPane.showOptionDialog(
                 null,
                 "Select a page to open:",
