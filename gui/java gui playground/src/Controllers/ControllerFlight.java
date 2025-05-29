@@ -178,17 +178,17 @@ public class ControllerFlight {
         var f1 = new Flight();
         f1.setBasicDetails(
             "A1234",
-            3,
+            1,
             new DateTime(0, 14, 10, 1, 2025),
-            10,
+            1,
             new DateTime(0, 14, 10, 2, 2025)
         );
         f1.airplaneID = 2;
         var report = new FlightReport();
         report.createReport(Status.normal, "lksfrngkf");
         f1.report = report;
-        f1.arrivalAirportID = 1;
-        f1.departureAirportID = 2;
+        f1.arrivalAirportID = 2;
+        f1.departureAirportID = 1;
         f1.status = Status.approved;
         f1.pricePerSeat = 10.0;
         f1.flightAttendantIDLlist = new ArrayList<>();

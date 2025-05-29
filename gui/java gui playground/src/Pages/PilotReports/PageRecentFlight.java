@@ -50,7 +50,7 @@ public class PageRecentFlight extends MainWindow {
         var controller = new ControllerFlight();
         LocalDateTime currDateTime = LocalDateTime.now();
         DateTime dateTime = new DateTime(currDateTime.getMinute(), currDateTime.getHour(), currDateTime.getDayOfMonth(),currDateTime.getMonthValue(),currDateTime.getYear());
-        planeFlights = controller.getFlightAfterDate(dateTime,plane);
+        planeFlights = controller.getFlightsAfterDate(dateTime,plane);
         for(Flight flight : planeFlights){
             Object[] row = {flight.flightNumber};
             tableModel.addRow(row);

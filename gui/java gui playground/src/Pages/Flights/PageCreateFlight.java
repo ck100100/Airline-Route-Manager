@@ -30,6 +30,11 @@ public class PageCreateFlight extends MainWindow {
     private FormDropdown menuInput;
     private FormInputNumerical seatPriceInput;
     private ErrorText errorText;
+    private ArrayList<Pilot> pilots;
+    private ArrayList<FlightAttendant> flightAttendants;
+    private ArrayList<FoodMenu> foodMenus;
+    private ArrayList<AirportLog> listOfAirports;
+
     public PageCreateFlight(Airline airline) {
         super("Create Flight");
         this.airline = airline;
@@ -40,38 +45,46 @@ public class PageCreateFlight extends MainWindow {
         var panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
-        // Dropdown options
-        String[] testList = {"opt1", "opt2", "opt3"};
-        String[] airplaneTestList = {"ASDF", "A30", "B550"};
-        ArrayList<String> listOfAirports = new ArrayList<>(Arrays.asList(testList));
-        ArrayList<String> airplaneListTemp = new ArrayList<>(Arrays.asList(airplaneTestList));
+        listOfAirports = (ArrayList<AirportLog>) airline.controllerAirport.getAllAirports();
+        ArrayList<String> airportNameList = new ArrayList<>();
+        for(AirportLog airport : listOfAirports)
+            airportNameList.add(airport.getNameAirport());
 
         ArrayList<AirplaneLog> airplaneList = (ArrayList<AirplaneLog>) airline.controllerAirplane.getAllAirplanes();
         ArrayList<String> airplaneNameList = new ArrayList<>();
         for(AirplaneLog airplane : airplaneList)
             airplaneNameList.add(airplane.getName());
 
-//        ArrayList<FoodMenu> foodMenuList = airline.controllerFoodMenu.getAllFoodMenus();
-//        ArrayList<String> foodMenuNameList = new ArrayList<>();
-//        for (FoodMenu foodMenu: foodMenuList) {
-//            foodMenuNameList.add(foodMenu.name)
-//        }
+        pilots = (ArrayList<Pilot>)  airline.controllerEmployee.getAllPilots();
+        ArrayList<String> pilotNames = new ArrayList<>();
+        for(Pilot pilot : pilots)
+            pilotNames.add(pilot.getName());
+
+        flightAttendants = (ArrayList<FlightAttendant>) airline.controllerEmployee.getAllFlightAttendants();
+        ArrayList<String> flightAttendantNames = new ArrayList<>();
+        for(FlightAttendant flightAttendant : flightAttendants)
+            flightAttendantNames.add(flightAttendant.getName());
+
+        foodMenus = (ArrayList<FoodMenu>) airline.controllerFoodMenu.getFoodMenus();
+        ArrayList<String> foodMenuNameList = new ArrayList<>();
+        for (FoodMenu foodMenu: foodMenus)
+            foodMenuNameList.add(foodMenu.name);
 
         // Form Inputs
         flightNumberInput = new FormInput("Flight Number", true, "");
         departureDateInput = new FormDateTimeInput("Departure Time", new DateTime(00, 14, 01, 01, 2025), true);
         arrivalDateInput = new FormDateTimeInput("Arrival Time", new DateTime(00, 14, 01, 01, 2025), true);
-        departureAirport = new FormDropdown("Departure Airport", listOfAirports);
+        departureAirport = new FormDropdown("Departure Airport", airportNameList, null);
         departureAirport.setAlignmentX(Component.LEFT_ALIGNMENT);
-        arrivalAirport = new FormDropdown("Arrival Airport", listOfAirports);
+        arrivalAirport = new FormDropdown("Arrival Airport", airportNameList, null);
         arrivalAirport.setAlignmentX(Component.LEFT_ALIGNMENT);
-        airplaneInput = new FormDropdown("Airplane", airplaneNameList);
+        airplaneInput = new FormDropdown("Airplane", airplaneNameList, null);
         airplaneInput.setAlignmentX(Component.LEFT_ALIGNMENT);
-        pilotInput = new FormDropdownMultiSelect("Pilot", airplaneNameList, null);
+        pilotInput = new FormDropdownMultiSelect("Pilot", pilotNames, null);
         pilotInput.setAlignmentX(Component.LEFT_ALIGNMENT);
-        flightAttendantInput = new FormDropdownMultiSelect("Flight Attendant", airplaneNameList, null);
+        flightAttendantInput = new FormDropdownMultiSelect("Flight Attendant", flightAttendantNames, null);
         flightAttendantInput.setAlignmentX(Component.LEFT_ALIGNMENT);
-        menuInput = new FormDropdown("Menu", foodMenuList);
+        menuInput = new FormDropdown("Menu", foodMenuNameList, null);
         menuInput.setAlignmentX(Component.LEFT_ALIGNMENT);
         seatPriceInput = new FormInputNumerical("Price Per Seat", true, 0.0);
         errorText = new ErrorText();
@@ -138,29 +151,55 @@ public class PageCreateFlight extends MainWindow {
             if(pricePerSeat <= 0.0)
                 throw new InvalidInputException("Seat price must be greater than zero");
 
-            Integer[] mockList = {1};
-            ArrayList<Integer> mockPilotList = new ArrayList<>(Arrays.asList(mockList));
-            ArrayList<Integer> mockFlightAttendantList = new ArrayList<>(Arrays.asList(mockList));
+            int departureAirportID = listOfAirports.get(departureAirport.getSelectedIndex() - 1).getAirportID();
+            int arrivalAirportID = listOfAirports.get(arrivalAirport.getSelectedIndex() - 1).getAirportID();
+
+            ArrayList<Integer> newFlightAttendantIDList = new ArrayList<>();
+            ArrayList<Integer> flightAttendantSelectedIndexes = flightAttendantInput.getSelectedItemIndexes();
+            for(Integer index : flightAttendantSelectedIndexes)
+                newFlightAttendantIDList.add(flightAttendants.get(index).getFlightAttendantID());
+
+            ArrayList<Integer> newPilotIDList = new ArrayList<>();
+            ArrayList<Integer> selectedIndexes = pilotInput.getSelectedItemIndexes();
+            for(Integer index : selectedIndexes)
+                newPilotIDList.add(pilots.get(index).getPilotID());
+
+            Integer foodMenuSelectedIndex = menuInput.getSelectedIndex();
+            Integer foodMenuID;
+            if(foodMenuSelectedIndex == 0)
+                foodMenuID = null;
+            else
+                foodMenuID = foodMenus.get(foodMenuSelectedIndex - 1).menuID;
 
             newFlight.flightNumber = flightNumberInput.getText();
             newFlight.departureTime = departureDateInput.getValue();
             newFlight.arrivalTime = arrivalDateInput.getValue();
-            newFlight.departureAirportID = 1; // change this
-            newFlight.arrivalAirportID = 2; // change this
+            newFlight.departureAirportID = departureAirportID;
+            newFlight.arrivalAirportID = arrivalAirportID;
             newFlight.airplaneID = airplaneInput.getSelectedIndex();
-            newFlight.pilotListID = mockPilotList; // change this
-            newFlight.flightAttendantIDLlist = mockFlightAttendantList; // change this
-            newFlight.menuID = 1; // change this
+            newFlight.pilotListID = newPilotIDList;
+            newFlight.flightAttendantIDLlist = newFlightAttendantIDList;
+            newFlight.menuID = foodMenuID;
             newFlight.pricePerSeat = pricePerSeat;
+
+            if(newFlight.flightNumber.length() < 5)
+                throw new InvalidInputException("Flight Number must be atleast 5 characters long");
+            if(newFlight.arrivalTime.isBeforeOrEqual(newFlight.departureTime))
+                throw new InvalidInputException("Departure time must be before the arrival time");
 
             System.out.println("Flight saved successfully!");
             errorText.clear();
+            errorText.repaint();
+
+            airline.controllerFlight.fileFlight(newFlight);
 
             this.closeWindow();
 
         } catch (InvalidInputException e) {
             System.out.println(e.getMessage());
             errorText.setErrorMsg(e.getMessage());
+        } catch(Exception e) {
+            System.out.println(e);
         }
     }
 }

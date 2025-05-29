@@ -30,6 +30,7 @@ public class PageViewFlight extends MainWindow {
     private FormDropdown menuInput;
     private FormInputNumerical seatPriceInput;
     private ErrorText errorText;
+    private ArrayList<AirportLog> listOfAirports;
     private ArrayList<FlightAttendant> flightAttendants;
     private ArrayList<Pilot> pilots = new ArrayList<>();
     private ArrayList<FoodMenu> foodMenus = new ArrayList<>();
@@ -46,7 +47,7 @@ public class PageViewFlight extends MainWindow {
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         // Dropdown options
-        ArrayList<AirportLog> listOfAirports = (ArrayList<AirportLog>) airline.controllerAirport.getAllAirports();
+        listOfAirports = (ArrayList<AirportLog>) airline.controllerAirport.getAllAirports();
         ArrayList<String> airportNameList = new ArrayList<>();
         for(AirportLog airport : listOfAirports)
             airportNameList.add(airport.getNameAirport());
@@ -189,6 +190,7 @@ public class PageViewFlight extends MainWindow {
             if(pricePerSeat <= 0.0)
                 throw new InvalidInputException("Seat price must be greater than zero");
 
+
             ArrayList<Integer> newFlightAttendantIDList = new ArrayList<>();
             ArrayList<Integer> flightAttendantSelectedIndexes = flightAttendantInput.getSelectedItemIndexes();
             for(Integer index : flightAttendantSelectedIndexes)
@@ -209,12 +211,10 @@ public class PageViewFlight extends MainWindow {
             flight.flightNumber = flightNumberInput.getText();
             flight.departureTime = departureDateInput.getValue();
             flight.arrivalTime = arrivalDateInput.getValue();
-            flight.departureAirportID = 1; // change this
-            flight.arrivalAirportID = 2; // change this
             flight.airplaneID = airplaneInput.getSelectedIndex();
             flight.pilotListID = newPilotIDList;
-            flight.flightAttendantIDLlist = newFlightAttendantIDList; // change this
-            flight.menuID = foodMenuID; // change this
+            flight.flightAttendantIDLlist = newFlightAttendantIDList;
+            flight.menuID = foodMenuID;
             flight.pricePerSeat = pricePerSeat;
 
             if(flight.flightNumber.length() < 5)
