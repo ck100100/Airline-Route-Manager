@@ -60,8 +60,6 @@ public class PageViewFlightList extends MainWindow {
     private JPanel generateTable() {
         JPanel panel = new JPanel();
 
-
-
         table = new JTable();
         updateTableModel(table);
         table.setEnabled(true);
