@@ -16,6 +16,7 @@ public class PanelCentered {
         spacerRight.setPreferredSize(new Dimension(200, 1));
 
         panelInner = new JPanel();
+        panelInner.setBackground(Color.RED);
         panelInner.setLayout(new BoxLayout(panelInner, BoxLayout.Y_AXIS));
 
         panelOuter.add(spacerLeft, BorderLayout.WEST);
@@ -29,5 +30,8 @@ public class PanelCentered {
 
     public void attatch(JComponent parentComponent) {
         parentComponent.add(panelOuter);
+    }
+
+    public void attatch(Container contentPane) {
     }
 }
