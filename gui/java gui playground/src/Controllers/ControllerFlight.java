@@ -4,6 +4,7 @@ import utils.Status;
 import utils.DateTime;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ControllerFlight {
@@ -16,6 +17,7 @@ public class ControllerFlight {
     public List<Flight> getAllFlights() {
         return flightList;
     }
+    private int counter = 0;
 
     public List<Flight> getFlightsByFilter(Status status) {
         List<Flight> filteredList = new ArrayList<Flight>();
@@ -46,7 +48,7 @@ public class ControllerFlight {
          */
         Flight item = null;
         int i = 0;
-        while (item == null || i < flightList.size()) {
+        while (item == null && i < flightList.size()) {
             var currFlight = flightList.get(i);
             if(currFlight.flightID == flightID)
                 item = currFlight;
@@ -65,7 +67,7 @@ public class ControllerFlight {
         return planeFlights;
     }
 
-    private Flight getFlightAfterDate(DateTime dateTime, AirplaneLog airplane) {
+    public Flight getFlightAfterDate(DateTime dateTime, AirplaneLog airplane) {
         Flight earliestFlight = null;
         for(int i=0; i < flightList.size(); i++) {
             Flight currentFlight = flightList.get(i);
@@ -108,7 +110,7 @@ public class ControllerFlight {
     }
 
     private boolean isFlightAttendantAvailable(Flight flightToCheck, FlightAttendant flightAttendant) {
-        Integer[] fl = {flightAttendant.getIdNumber()};
+        Integer[] fl = {flightAttendant.getFlightAttendantID()};
         for(Flight currentFlight: flightList) {
             boolean equalEntities = containsMutualItem((ArrayList<Integer>) currentFlight.flightAttendantIDLlist, new ArrayList<>(Arrays.asList(fl)));
             if(equalEntities) {
@@ -122,7 +124,7 @@ public class ControllerFlight {
     }
 
     private boolean isPilotAvailable(Flight flightToCheck, Pilot pilot) {
-        Integer[] pl = {pilot.getIdNumber()};
+        Integer[] pl = {pilot.getPilotID()};
         for(Flight currentFlight: flightList) {
             boolean equalEntities = containsMutualItem((ArrayList<Integer>) currentFlight.pilotListID, new ArrayList<>(Arrays.asList(pl)));
             if(equalEntities) {
@@ -156,7 +158,7 @@ public class ControllerFlight {
         return flightsBeforeDate;
     }
 
-    private List<Flight> getFlightsAfterDate(DateTime dateTime, AirplaneLog airplane) {
+    public List<Flight> getFlightsAfterDate(DateTime dateTime, AirplaneLog airplane) {
         ArrayList<Flight> flightsAfterDate = new ArrayList<>();
         for(int i=0; i < flightList.size(); i++) {
             Flight currentFlight = flightList.get(i);
@@ -165,6 +167,11 @@ public class ControllerFlight {
         }
 
         return flightsAfterDate;
+    }
+
+    public void fileFlight(Flight flight) {
+        flight.flightID = ++counter;
+        flightList.add(flight);
     }
 
     private void generateMockData() {
@@ -183,8 +190,11 @@ public class ControllerFlight {
         f1.arrivalAirportID = 1;
         f1.departureAirportID = 2;
         f1.status = Status.approved;
+        f1.pricePerSeat = 10.0;
+        f1.flightAttendantIDLlist = new ArrayList<>();
+        f1.pilotListID = new ArrayList<>();
 
-        flightList.add(f1);
+        fileFlight(f1);
 
     }
 }

@@ -10,7 +10,7 @@ import java.util.Vector;
 public class FormDropdown extends JPanel {
     private JComboBox dropdown;
 
-    public FormDropdown(String labelText, ArrayList<String> options) {
+    public FormDropdown(String labelText, ArrayList<String> options, String defaultSelection) {
         Vector<String> formOptions = new Vector<>();
         formOptions.addAll(options);
         formOptions.add(0, "Select:");
@@ -30,6 +30,22 @@ public class FormDropdown extends JPanel {
         dropdown.setMaximumSize(new Dimension(200, 30));
         dropdown.setSize(new Dimension(200, 30));
         dropdown.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        if(defaultSelection != null) {
+            boolean found = false;
+            int i = 0;
+            while(!found && i < formOptions.size()) {
+                if(formOptions.get(i) == defaultSelection)
+                    found = true;
+                else
+                    i++;
+            }
+            if(found)
+                dropdown.setSelectedIndex(i);
+            else
+                throw new IllegalArgumentException("'" + defaultSelection + "' is an invalid option!");
+        }
+
         dropdownPanel.add(dropdown);
 
         add(labelPanel);
@@ -55,6 +71,6 @@ public class FormDropdown extends JPanel {
     }
 
     public int getSelectedIndex() {
-        return dropdown.getSelectedIndex() - 1;
+        return dropdown.getSelectedIndex();
     }
 }

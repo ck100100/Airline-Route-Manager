@@ -11,9 +11,12 @@ import java.util.Vector;
 public class FormDropdownMultiSelect extends JPanel {
     private JComboBox dropdown;
     private ArrayList<String> selectedItems;
+    private ArrayList<String> options;
     private JPanel listPanel;
 
     public FormDropdownMultiSelect(String labelText, ArrayList<String> options, String[] alreadySelectedItems) {
+        this.options = options;
+
         selectedItems = new ArrayList<>();
 
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
@@ -131,5 +134,24 @@ public class FormDropdownMultiSelect extends JPanel {
 
     public int getSelectedIndex() {
         return dropdown.getSelectedIndex() - 1;
+    }
+
+    public ArrayList<Integer> getSelectedItemIndexes() throws Exception {
+        ArrayList<Integer> selectedItemIndexes = new ArrayList<>();
+        for(String selectedItem : selectedItems) {
+            boolean found = false;
+            int i = 0;
+            while (!found && i < options.size()) {
+                if (selectedItem == options.get(i))
+                    found = true;
+                else
+                    i++;
+            }
+            if (found)
+                selectedItemIndexes.add(i);
+            else
+                throw new Exception("Couldn't find option in dropdown!");
+        }
+        return selectedItemIndexes;
     }
 }
