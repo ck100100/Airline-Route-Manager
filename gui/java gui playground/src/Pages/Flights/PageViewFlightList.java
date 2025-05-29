@@ -19,6 +19,8 @@ import Controllers.Airline;
 
 public class PageViewFlightList extends MainWindow {
     private Airline airline;
+    private JTable table;
+    private List<Flight> flightList;
 
     public PageViewFlightList(Airline airline) {
         super("View Flights");
@@ -39,8 +41,18 @@ public class PageViewFlightList extends MainWindow {
             }
         });
 
+        var refreshBtn = ButtonFactory.primary("Refresh");
+        refreshBtn.setAlignmentX(Component.CENTER_ALIGNMENT);
+        refreshBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onRefresh();
+            }
+        });
+
         panel.add(createFlightBtn);
         panel.add(generateTable());
+        panel.add(refreshBtn);
 
         return panel;
     }
@@ -48,8 +60,32 @@ public class PageViewFlightList extends MainWindow {
     private JPanel generateTable() {
         JPanel panel = new JPanel();
 
+
+
+        table = new JTable();
+        updateTableModel(table);
+        table.setEnabled(true);
+
+
+        table.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int rowClicked = table.getSelectedRow();
+                System.out.println(rowClicked);
+                onSelectsViewFlight(flightList.get(rowClicked));
+            }
+        });
+
+        JScrollPane scrollPane = new JScrollPane(table);
+        panel.add(scrollPane);
+
+        return panel;
+    }
+
+    private void updateTableModel(JTable table) {
         String[] tableColumnNames = {"flight number", "departure airport", "departure time", "arrival airport", "arrival time"};
-        String[][] tableData = parseFlightDetails(airline.controllerFlight.getAllFlights());
+        flightList = airline.controllerFlight.getAllFlights();
+        String[][] tableData = parseFlightDetails(flightList);
 
         DefaultTableModel tableModel = new DefaultTableModel(tableData, tableColumnNames) {
             @Override
@@ -59,22 +95,7 @@ public class PageViewFlightList extends MainWindow {
             }
         };
 
-        var table = new JTable(tableModel);
-        table.setEnabled(true);
-
-
-        table.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int rowClicked = table.getSelectedRow();
-                System.out.println(rowClicked);
-            }
-        });
-
-        JScrollPane scrollPane = new JScrollPane(table);
-        panel.add(scrollPane);
-
-        return panel;
+        table.setModel(tableModel);
     }
 
     private String[][] parseFlightDetails(List<Flight> flightList) {
@@ -95,11 +116,17 @@ public class PageViewFlightList extends MainWindow {
     }
 
     private void onSelectsViewFlight(Flight flight) {
-        // this needs to be implemented!
+        var newPage = new PageViewFlight(airline, flight);
+        newPage.show();
     }
 
     private void onSelectCreateFlight() {
         var newPage = new PageCreateFlight(airline);
         newPage.show();
+    }
+
+    private void onRefresh() {
+        // this needs to be implemented!
+        updateTableModel(table);
     }
 }

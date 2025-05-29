@@ -22,7 +22,8 @@ public class Main {
                 var controllerFlight = new ControllerFlight();
                 var controllerAirplane = new ControllerAirplane();
                 var controllerFoodMenu = new ControllerFoodMenu();
-                Airline airline = new Airline(controllerFlight, controllerAirplane, controllerFoodMenu);
+                var controllerAirport = new ControllerAirport();
+                Airline airline = new Airline(controllerFlight, controllerAirplane, controllerFoodMenu, controllerAirport);
 
                 var main = new PageViewFlightList(airline);
                 main.show();
