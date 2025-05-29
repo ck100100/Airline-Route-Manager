@@ -10,7 +10,6 @@ public class PageAirplaneForm extends JDialog {
             rangeField, rowsField, seatsPerRowField, typeField;
     private JComboBox<AirplaneLog.AirplaneStatus> statusComboBox;
 
-
     private final AirplaneLog airplane;
     private final PageAirplaneGUI parent;
     private final boolean isNew;
@@ -36,49 +35,35 @@ public class PageAirplaneForm extends JDialog {
         rowsField = new JTextField(String.valueOf(airplane.getNumberOfRows()));
         seatsPerRowField = new JTextField(String.valueOf(airplane.getSeatsPerRow()));
         typeField = new JTextField(airplane.getType() == null ? "" : airplane.getType());
-        statusComboBox = new JComboBox<>(new AirplaneLog.AirplaneStatus[] {
+
+        statusComboBox = new JComboBox<>(new AirplaneLog.AirplaneStatus[]{
                 AirplaneLog.AirplaneStatus.active,
                 AirplaneLog.AirplaneStatus.inactive
         });
-        statusComboBox.setSelectedItem(
-                airplane.getStatus() == AirplaneLog.AirplaneStatus.active
-                        ? AirplaneLog.AirplaneStatus.active
-                        : AirplaneLog.AirplaneStatus.inactive
-        );
-
+        statusComboBox.setSelectedItem(airplane.getStatus());
 
         formPanel.add(new JLabel("Name:"));
         formPanel.add(nameField);
-
         formPanel.add(new JLabel("Capacity:"));
         formPanel.add(capacityField);
-
         formPanel.add(new JLabel("Max Total Load (kg):"));
         formPanel.add(loadField);
-
         formPanel.add(new JLabel("Max Carry-ons:"));
         formPanel.add(carryOnsField);
-
         formPanel.add(new JLabel("Max Cargo Size (m³):"));
         formPanel.add(cargoSizeField);
-
         formPanel.add(new JLabel("Flight Range (mi):"));
         formPanel.add(rangeField);
-
         formPanel.add(new JLabel("Number of Rows:"));
         formPanel.add(rowsField);
-
         formPanel.add(new JLabel("Seats per Row:"));
         formPanel.add(seatsPerRowField);
-
         formPanel.add(new JLabel("Type:"));
         formPanel.add(typeField);
-
         formPanel.add(new JLabel("Status:"));
         formPanel.add(statusComboBox);
 
         add(formPanel, BorderLayout.CENTER);
-
 
         JPanel buttonPanel = new JPanel();
         JButton saveBtn = new JButton("Save");
@@ -95,6 +80,7 @@ public class PageAirplaneForm extends JDialog {
             if (validateFields()) {
                 updateAirplaneFromFields();
                 parent.addOrUpdateAirplane(airplane);
+                JOptionPane.showMessageDialog(this, "Airplane saved successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
                 dispose();
             }
         });
@@ -108,9 +94,7 @@ public class PageAirplaneForm extends JDialog {
             }
         });
 
-        cancelBtn.addActionListener(e -> {
-            dispose();
-        });
+        cancelBtn.addActionListener(e -> dispose());
 
         setLocationRelativeTo(parent);
     }
@@ -126,24 +110,39 @@ public class PageAirplaneForm extends JDialog {
         airplane.setSeatsPerRow(Integer.parseInt(seatsPerRowField.getText().trim()));
         airplane.setType(typeField.getText().trim().toLowerCase());
         airplane.setStatus((AirplaneLog.AirplaneStatus) statusComboBox.getSelectedItem());
-
     }
 
     private boolean validateFields() {
         try {
-            Integer.parseInt(capacityField.getText().trim());
-            Double.parseDouble(loadField.getText().trim());
-            Integer.parseInt(carryOnsField.getText().trim());
-            Double.parseDouble(cargoSizeField.getText().trim());
-            Double.parseDouble(rangeField.getText().trim());
-            Integer.parseInt(rowsField.getText().trim());
-            Integer.parseInt(seatsPerRowField.getText().trim());
-            if (nameField.getText().trim().isEmpty() || typeField.getText().trim().isEmpty()) {
+            String name = nameField.getText().trim();
+            String type = typeField.getText().trim();
+
+            if (name.isEmpty() || type.isEmpty()) {
                 throw new IllegalArgumentException("Name and type must not be empty.");
             }
+
+            int capacity = Integer.parseInt(capacityField.getText().trim());
+            double load = Double.parseDouble(loadField.getText().trim());
+            int carryOns = Integer.parseInt(carryOnsField.getText().trim());
+            double cargoSize = Double.parseDouble(cargoSizeField.getText().trim());
+            double range = Double.parseDouble(rangeField.getText().trim());
+            int rows = Integer.parseInt(rowsField.getText().trim());
+            int seatsPerRow = Integer.parseInt(seatsPerRowField.getText().trim());
+
+            if (capacity <= 0 || capacity > 1000) throw new IllegalArgumentException("Capacity must be between 1 and 1000.");
+            if (load < 0 || load > 100000) throw new IllegalArgumentException("Max load is too high or negative.");
+            if (carryOns < 0 || carryOns > 500) throw new IllegalArgumentException("Unreasonable carry-on count.");
+            if (cargoSize < 0 || cargoSize > 5000) throw new IllegalArgumentException("Cargo size must be reasonable.");
+            if (range <= 0 || range > 20000) throw new IllegalArgumentException("Flight range must be between 1 and 20000.");
+            if (rows <= 0 || rows > 100) throw new IllegalArgumentException("Row count must be between 1 and 100.");
+            if (seatsPerRow <= 0 || seatsPerRow > 20) throw new IllegalArgumentException("Seats per row must be between 1 and 20.");
+
             return true;
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, "Invalid input: " + ex.getMessage());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Please enter valid numeric values.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+            return false;
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, "Invalid input: " + e.getMessage(), "Validation Error", JOptionPane.ERROR_MESSAGE);
             return false;
         }
     }
