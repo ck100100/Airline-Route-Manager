@@ -15,11 +15,13 @@ public class PageViewFlightsToBook extends MainWindow {
     private JTable table;
     private List<Flight> flightList;
     private Airline airline;
+    private int numberOfBreifcases;
 
-    public PageViewFlightsToBook(Airline airline, List<Flight> flightList) {
+    public PageViewFlightsToBook(Airline airline, List<Flight> flightList, int numberOfBreifcases) {
         super("Search For Flight");
         this.airline = airline;
         this.flightList = flightList;
+        this.numberOfBreifcases = numberOfBreifcases;
     }
 
     @Override
@@ -79,13 +81,15 @@ public class PageViewFlightsToBook extends MainWindow {
         String[][] parsedFlights = new String[flightList.size()][];
         for(int i=0; i < flightList.size(); i++) {
             Flight flight = flightList.get(i);
+            final double pricePerBreifcase = 5.0;
+            double totalPrice = pricePerBreifcase * numberOfBreifcases + flight.pricePerSeat;
             String[] parsedFlight = {
                     flight.flightNumber.toString(),
                     airline.controllerAirport.getAirportByID(flight.departureAirportID).getNameAirport(),
                     flight.departureTime.parse(),
                     airline.controllerAirport.getAirportByID(flight.arrivalAirportID).getNameAirport(),
                     flight.arrivalTime.parse(),
-                    flight.pricePerSeat.toString() + "€"
+                    Double.toString(totalPrice) + "€"
             };
             parsedFlights[i] = parsedFlight;
         }
@@ -94,6 +98,8 @@ public class PageViewFlightsToBook extends MainWindow {
     }
 
     private void onSelectsBookFlight(Flight flight) {
-        // do something
+        var nextPage = new PagePassengerDetails(flight);
+        nextPage.show();
+        this.closeWindow();
     }
 }

@@ -18,6 +18,7 @@ public class PageSearchFlight extends MainWindow {
     FormDropdown arrivalAirportInput;
     FormDate flightDateInput;
     FormDate arrivalDateInput;
+    FormInputNumerical numberOfBriefcasesInput;
     ArrayList<AirportLog> airports;
     ErrorText errorText;
     public PageSearchFlight(Airline airline) {
@@ -40,6 +41,8 @@ public class PageSearchFlight extends MainWindow {
         arrivalAirportInput = new FormDropdown("Arrival Airport", airportNames, null);
         arrivalAirportInput.setAlignmentX(Component.LEFT_ALIGNMENT);
         flightDateInput = new FormDate("Flight Date", 01, 01, 2025, true);
+        numberOfBriefcasesInput = new FormInputNumerical("Number of Briefcases", true, 0.0);
+
 
         var searchBtn = ButtonFactory.primary("Search");
         searchBtn.addActionListener(new ActionListener() {
@@ -54,6 +57,7 @@ public class PageSearchFlight extends MainWindow {
         panel.add(departureAirportInput);
         panel.add(arrivalAirportInput);
         panel.add(flightDateInput);
+        panel.add(numberOfBriefcasesInput);
         panel.add(errorText);
         panel.add(searchBtn);
 
@@ -62,10 +66,13 @@ public class PageSearchFlight extends MainWindow {
 
     private void onSearch() {
         try {
+            int numberOfBriefcases = (int) numberOfBriefcasesInput.getValue();
             if(departureAirportInput.getSelectedIndex() == 0)
                 throw new InvalidInputException("You must select a departure airport");
             else if(arrivalAirportInput.getSelectedIndex() == 0)
                 throw new InvalidInputException("You must select a arrival airport");
+            else if(numberOfBriefcases < 0)
+                throw new InvalidInputException("You can't have negative amount of breifcases");
 
             DateTime flightDate = flightDateInput.getValue();
             int departureAirportID = airports.get(departureAirportInput.getSelectedIndex() - 1).getAirportID();
@@ -82,7 +89,7 @@ public class PageSearchFlight extends MainWindow {
             errorText.setErrorMsg("");
 
             ArrayList<Flight> flights = (ArrayList<Flight>) airline.controllerFlight.getFlights(departureAirportID, arrivalAirportID, flightDate);
-            var nextPage = new PageViewFlightsToBook(airline, flights);
+            var nextPage = new PageViewFlightsToBook(airline, flights, numberOfBriefcases);
             nextPage.show();
             closeWindow();
         } catch (InvalidInputException e) {

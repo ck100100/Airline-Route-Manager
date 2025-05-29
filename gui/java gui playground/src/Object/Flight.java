@@ -22,6 +22,7 @@ public class Flight {
     public Integer[] bookingList = {};
     public Status status = Status.draft;
     public FlightReport report;
+    public ArrayList<FlightBooking> flightBookings = new ArrayList<FlightBooking>();
 
     public Flight() {}
 
@@ -114,6 +115,10 @@ public class Flight {
 
     public void setMenu(Integer menuID) {
         this.menuID = menuID;
+    }
+
+    public void addFlightBooking(FlightBooking booking) {
+        flightBookings.add(booking);
     }
 
     public void changeFlightNumber(String newFlightNumber, ControllerFlight controllerFlight) throws IllegalArgumentException {
