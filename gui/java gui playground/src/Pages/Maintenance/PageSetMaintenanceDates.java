@@ -71,6 +71,18 @@ public class PageSetMaintenanceDates extends MainWindow {
         closeWindow();
     }
     public void setMaintenance() throws InvalidInputException {
+        DateTime startDate = startMaintenanceDateInput.getValue();
+        DateTime endDate = endMaintenanceDateInput.getValue();
+        DateTime currentDate = DateTime.now();
+
+        if(startDate.isBefore(currentDate) || endDate.isBefore(currentDate)){
+            JOptionPane.showMessageDialog(null,"Maintenance slot not set dates cant be in the past");
+            throw new InvalidInputException("Maintenance dates cannot be in the past");
+        }
+        if(!startDate.isBefore(endDate)){
+            JOptionPane.showMessageDialog(null,"Maintenance slot not set end date must be after start date");
+            throw new InvalidInputException("Start date cannot be after end date");
+        }
         plane.setStatus(AirplaneStatus.maintenanceApproved);
         plane.setFinishMaintenanceDate(endMaintenanceDateInput.getValue());
         planeFlights = airline.controllerFlight.getFlightsAfterDate(endMaintenanceDateInput.getValue(),plane);

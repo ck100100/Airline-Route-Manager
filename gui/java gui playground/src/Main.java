@@ -3,6 +3,7 @@ import Controllers.ControllerFoodMenu;
 import Controllers.ControllerMenuItem;
 import Pages.Flights.PageCreateFlight;
 import Pages.Flights.PageViewFlightList;
+import Pages.Maintenance.PageAwaitingMaintenance;
 import Pages.Menu.PageInsertMenuItem;
 import Pages.Menu.PageMenuCreation;
 import Pages.PilotReports.PageAvailablePlanes;
@@ -25,7 +26,7 @@ public class Main {
                 var controllerAirport = new ControllerAirport();
                 Airline airline = new Airline(controllerFlight, controllerAirplane, controllerFoodMenu, controllerAirport);
 
-                var main = new PageViewFlightList(airline);
+                var main = new PageAwaitingMaintenance(airline);
                 main.show();
             }
         });

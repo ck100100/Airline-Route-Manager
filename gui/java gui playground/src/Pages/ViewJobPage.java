@@ -83,7 +83,7 @@ public class ViewJobPage extends JFrame {
 
         backButton.addActionListener(e -> {
             dispose();
-            Main.showPageSelectionDialog();
+            //Main.showPageSelectionDialog();
         });
 
         paymentButton.addActionListener(e -> {

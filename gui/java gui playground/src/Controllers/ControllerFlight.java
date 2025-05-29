@@ -211,7 +211,7 @@ public class ControllerFlight {
 
 
         flightList.add(f1);
-        flightList.add(f2);
+        //flightList.add(f2);
 
     }
 }

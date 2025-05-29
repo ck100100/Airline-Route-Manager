@@ -34,7 +34,7 @@ public class JobListPage extends JFrame {
         backButton.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
         backButton.addActionListener(e -> {
             dispose();
-            Main.showPageSelectionDialog();
+            //Main.showPageSelectionDialog();
         });
 
         JLabel titleLabel = new JLabel("Job List");
