@@ -72,8 +72,20 @@ public class PageInsertMenuItem extends MainWindow {
                 JOptionPane.showMessageDialog(null,"All fields are required");
                 return;
             }
-            double cost = Double.parseDouble(costStr);
-            double weight = Double.parseDouble(weightStr);
+            double cost ;
+            double weight ;
+            try{
+                cost = Double.parseDouble(costStr);
+            } catch (NumberFormatException e){
+                JOptionPane.showMessageDialog(null,"Cost must be a valid number");
+                return;
+            }
+            try{
+                weight = Double.parseDouble(weightStr);
+            } catch(NumberFormatException e){
+                JOptionPane.showMessageDialog(null,"Weight must be a valid number");
+                return;
+            }
 
             var newFoodItem = new FoodMenuItem();
             newFoodItem.menuItemName = name;
