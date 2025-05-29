@@ -21,7 +21,7 @@ public abstract class MainWindow {
         outerPanel.add(displayHeader(), BorderLayout.NORTH);
         var panel = new PanelCentered();
         panel.attatch(outerPanel);
-        panel.add(generateBody());
+        outerPanel.add(generateBody(), BorderLayout.CENTER);
         window.add(outerPanel, BorderLayout.CENTER);
         window.setVisible(true);
     }
@@ -45,7 +45,7 @@ public abstract class MainWindow {
     private void initialise() {
         window = new JFrame();
         window.setTitle("Hello World");
-        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setSize(1200, 800);
         window.setLocationRelativeTo(null);
         window.setLayout(new BorderLayout());

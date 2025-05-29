@@ -7,25 +7,10 @@ import components.MainWindow;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import Object.Flight;
-import Controllers.ControllerFlight;
-import Object.AirplaneLog;
-import utils.DateTime;
-import utils.Status;
-import utils.AirplaneStatus;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 public class PagePlaneReport extends MainWindow {
-    private final Flight selectedFlight;
-    private final AirplaneLog selectedPlane;
-    private List<Flight> planeFlights;
-    public PagePlaneReport(Flight selectedFlight, AirplaneLog selectedPlane) {
-
+    public PagePlaneReport() {
         super("Pilot Report");
-        this.selectedFlight = selectedFlight;
-        this.selectedPlane = selectedPlane;
     }
 
     @Override
@@ -44,10 +29,10 @@ public class PagePlaneReport extends MainWindow {
 
         var panelLeft = new JPanel();
         panelLeft.setLayout(new BoxLayout(panelLeft, BoxLayout.Y_AXIS));
-        var planeInput = new FormInput("Plane", false, selectedPlane.getType());
-        var flightNumInput = new FormInput("Flight Number", false, selectedFlight.flightNumber);
-        var departureAirportInput = new FormInput("Departure Airport", false, selectedFlight.departureAirportID.toString());
-        var arrivalAirport = new FormInput("Arrival Airport", false, selectedFlight.arrivalAirportID.toString());
+        var planeInput = new FormInput("Plane", false, "");
+        var flightNumInput = new FormInput("Flight Number", false, "");
+        var departureAirportInput = new FormInput("Departure Airport", false, "");
+        var arrivalAirport = new FormInput("Arrival Airport", false, "");
         var pilotInput = new FormInput("Pilot", false,"");
         var copilotInput = new FormInput("Co-Pilot", false, "");
 
@@ -59,10 +44,8 @@ public class PagePlaneReport extends MainWindow {
         panelLeft.add(copilotInput);
 
         var panelRight = new JPanel();
-        var descriptionInput = new FormInputLarge("Description", false, selectedFlight.report.getDescription());
-        var statusInput = new FormInput("Status", false, selectedFlight.report.getStatus().toString());
+        var descriptionInput = new FormInputLarge("Description", false, "");
         panelRight.add(descriptionInput);
-        panelRight.add(statusInput);
 
         panel.add(panelLeft);
         panel.add(panelRight);
@@ -93,21 +76,10 @@ public class PagePlaneReport extends MainWindow {
     }
 
     public void onPlaneGround() {
-        selectedPlane.setStatus(AirplaneStatus.awaitingMaintenance);
-        selectedPlane.setGroundFlightID(selectedFlight.flightID);
-        var controller = new ControllerFlight();
-        LocalDateTime currDateTime = LocalDateTime.now();
-        DateTime dateTime = new DateTime(currDateTime.getMinute(), currDateTime.getHour(),
-                currDateTime.getDayOfMonth(),currDateTime.getMonthValue(),currDateTime.getYear());
-        planeFlights = controller.getFlightsAfterDate(dateTime,selectedPlane);
-        for(Flight flight : planeFlights){
-            if(flight.status == Status.approved ){
-                flight.status = Status.cancelled;
-            }
-        }
-        if(planeFlights.size() > 0){
-            JOptionPane.showMessageDialog(null,"Flights cancelled successfully");
-        }
+        /*
+        Called when "ground" button is pressed
+         */
+        return;
     }
 
     public void onReturn() {
