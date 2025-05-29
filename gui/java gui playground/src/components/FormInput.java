@@ -10,6 +10,9 @@ public class FormInput extends JPanel {
     protected JTextField inputBox;
     private String label;
     public FormInput(String labelText, boolean enabled, String defaultValue) {
+        if(defaultValue == null)
+            defaultValue = "";
+
         this.label = labelText;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(new EmptyBorder(10, 0, 10, 0));
