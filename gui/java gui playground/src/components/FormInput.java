@@ -1,21 +1,13 @@
 package components;
 
-import utils.Exceptions.InvalidInputException;
-
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
 public class FormInput extends JPanel {
-
-    protected JTextField inputBox;
-    private String label;
+    private JTextField inputBox;
 
     public FormInput(String labelText, boolean enabled, String defaultValue) {
-        if(defaultValue == null)
-            defaultValue = "";
-
-        this.label = labelText;
         this.setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         this.setBorder(new EmptyBorder(10, 0, 10, 0));
 
@@ -23,7 +15,7 @@ public class FormInput extends JPanel {
 
         label.setAlignmentX(Component.LEFT_ALIGNMENT);
         inputBox = new JTextField(defaultValue);
-        inputBox.setMaximumSize(new Dimension(350, 30));
+        inputBox.setPreferredSize(new Dimension(350, 30));
         inputBox.setEnabled(enabled);
 
         this.add(label);
@@ -38,9 +30,10 @@ public class FormInput extends JPanel {
         return true;
     }
 
-    public String getText() throws InvalidInputException {
-        if(validateInput() == false)
-            throw new InvalidInputException("The field '" + label + "' has an invalid value");
+    public String getText() throws Exception {
+        if (!validateInput()) {
+            throw new Exception("Invalid input...");
+        }
         return inputBox.getText();
     }
 }
