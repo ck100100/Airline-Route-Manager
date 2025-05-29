@@ -45,6 +45,13 @@ public class PagePassengerDetails extends MainWindow {
                 onSubmit();
             }
         });
+        var cancelBtn = new JButton("Cancel Button");
+        cancelBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onCancel();
+            }
+        });
 
         panel.add(firstnameInput);
         panel.add(lastnameInput);
@@ -54,35 +61,14 @@ public class PagePassengerDetails extends MainWindow {
         panel.add(phoneNumberInput);
         panel.add(errorText);
         panel.add(submitBtn);
+        panel.add(cancelBtn);
 
 
         return panel;
     }
 
     private void onSubmit() {
-        Pattern emailRegrex = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+\\.[A-Za-z]$");
-        Pattern phoneNumberRegrex = Pattern.compile("^\\+?[0-9]{11,12}$");
-
         try {
-//            String firstname = firstnameInput.getText();
-//            String lastname = lastnameInput.getText();
-//            String email = emailInput.getText();
-//            String passportNumber = passportNumberInput.getText();
-//            String nationality = nationalityInput.getText();
-//            String phoneNumber = phoneNumberInput.getText();
-//
-//            if(firstname.length() < 3)
-//                throw new InvalidInputException("Firstname must have atleast 3 characters");
-//            else if(lastname.length() < 3)
-//                throw new InvalidInputException("Lastname must have atleast 3 characters");
-//            else if(passportNumber.length() < 3)
-//                throw new InvalidInputException("Passport number must have atleast 3 characters");
-//            else if(nationality.length() < 4)
-//                throw new InvalidInputException("This nationality does not exist!");
-//            else if(phoneNumberRegrex.matcher(phoneNumber).matches() == false)
-//                throw new InvalidInputException("Invalid phone number");
-//            else if(emailRegrex.matcher(email).matches() == false)
-//                throw new InvalidInputException("This is not a valid email");
             Passenger passenger = new Passenger();
             passenger.setFirstName(firstnameInput.getText());
             passenger.setLastName(lastnameInput.getText());
@@ -105,5 +91,9 @@ public class PagePassengerDetails extends MainWindow {
             errorText.setErrorMsg(e.getMessage());
         }
 
+    }
+
+    private void onCancel() {
+        closeWindow();
     }
 }

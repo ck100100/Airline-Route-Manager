@@ -7,6 +7,8 @@ import utils.DateTime;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -58,6 +60,14 @@ public class PageViewFlightsToBook extends MainWindow {
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane);
 
+        var exitBtn = new JButton("exit");
+        exitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onExit();
+            }
+        });
+        panel.add(exitBtn);
 
         return panel;
     }
@@ -101,5 +111,9 @@ public class PageViewFlightsToBook extends MainWindow {
         var nextPage = new PagePassengerDetails(flight);
         nextPage.show();
         this.closeWindow();
+    }
+
+    private void onExit() {
+        closeWindow();
     }
 }

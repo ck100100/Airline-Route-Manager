@@ -51,6 +51,13 @@ public class PageSearchFlight extends MainWindow {
                 onSearch();
             }
         });
+        var exitBtn = ButtonFactory.primary("Exit");
+        exitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                onExit();
+            }
+        });
 
         errorText = new ErrorText();
 
@@ -60,6 +67,7 @@ public class PageSearchFlight extends MainWindow {
         panel.add(numberOfBriefcasesInput);
         panel.add(errorText);
         panel.add(searchBtn);
+        panel.add(exitBtn);
 
         return panel;
     }
@@ -95,5 +103,9 @@ public class PageSearchFlight extends MainWindow {
         } catch (InvalidInputException e) {
             errorText.setErrorMsg(e.getMessage());
         }
+    }
+
+    private void onExit() {
+        closeWindow();
     }
 }
