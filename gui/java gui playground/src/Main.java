@@ -1,22 +1,31 @@
+import Controllers.ControllerAirplane;
+import Controllers.ControllerFoodMenu;
+import Controllers.ControllerMenuItem;
 import Pages.Flights.PageCreateFlight;
+import Pages.Flights.PageViewFlightList;
 import Pages.Menu.PageInsertMenuItem;
 import Pages.Menu.PageMenuCreation;
 import Pages.PilotReports.PageAvailablePlanes;
 import Pages.PilotReports.PagePlaneReport;
 import Pages.PilotReports.PageRecentFlight;
 import components.MainWindow;
+import Controllers.*;
 
 import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Hello world!");
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-//                MainWindow main = new PageCreateFlight("Dev Ops");
-                // var main = new PageInsertMenuItem();
-                var main = new PageMenuCreation();
+                // Define controllers
+                var controllerFlight = new ControllerFlight();
+                var controllerAirplane = new ControllerAirplane();
+                var controllerFoodMenu = new ControllerFoodMenu();
+                var controllerAirport = new ControllerAirport();
+                Airline airline = new Airline(controllerFlight, controllerAirplane, controllerFoodMenu, controllerAirport);
+
+                var main = new PageViewFlightList(airline);
                 main.show();
             }
         });
