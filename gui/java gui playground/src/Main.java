@@ -1,4 +1,4 @@
-import Pages.Contractors.PageMain;
+import Pages.PageMain;
 import Controllers.*;
 
 import javax.swing.*;
