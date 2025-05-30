@@ -7,11 +7,12 @@ public class Airline {
     public ControllerAirport controllerAirport;
     public ControllerEmployee controllerEmployee;
 
-    public Airline(ControllerFlight controllerFlight, ControllerAirplane controllerAirplane, ControllerFoodMenu controllerFoodMenu, ControllerAirport controllerAirport) {
-        this.controllerFlight = controllerFlight;
-        this.controllerAirplane = controllerAirplane;
-        this.controllerFoodMenu = controllerFoodMenu;
-        this.controllerAirport = controllerAirport;
+    public Airline() {
+
+        this.controllerFlight = new ControllerFlight();
+        this.controllerAirplane = new ControllerAirplane();
+        this.controllerFoodMenu = new ControllerFoodMenu();
+        this.controllerAirport = new ControllerAirport();
         this.controllerEmployee = new ControllerEmployee();
     }
 }
