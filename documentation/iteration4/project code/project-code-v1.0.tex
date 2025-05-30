@@ -1,0 +1,88 @@
+\documentclass{article}
+\usepackage{graphicx} % Required for inserting images
+\usepackage{polyglossia} % used to display different languages
+\usepackage{enumitem}
+\usepackage{nameref}
+\usepackage{fontspec}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{float}
+
+\setdefaultlanguage{greek}
+\setotherlanguage{english}
+\newfontfamily\greekfont{Arial}
+
+
+\usepackage{fancyhdr} % used for custom headers
+
+\pagestyle{fancy} % allow the creation of custom headers
+\fancyhf{} % clear existing footers and headers
+\setlength{\headheight}{1cm}
+\rhead{
+    SkyOps
+    \includegraphics[height=0.8cm, keepaspectratio]{image.png}
+}
+
+\title{
+    \includegraphics[height=1cm, keepaspectratio]{image.png}
+    SkyOps - project code - v1.0
+}
+\author{}
+
+\date{} % date displayed underneath title
+
+\setlength{\parskip}{16pt}
+
+
+% document specific commands
+\newcounter{counterBasicFlow}
+\newcounter{counterAlternativeFlow}[counterBasicFlow]
+\newcommand{\bFlowIDReset}{\setcounter{counterBasicFlow}{0}}
+\newcommand{\bFlowID}{\protect\stepcounter{counterBasicFlow}\thecounterBasicFlow}
+\newcommand{\basicFlow}{\subsection*{Βασική Ροή \bFlowID}}
+\newcommand{\basicFlowNew}{\bFlowIDReset\basicFlow}
+\newcommand{\alternativeFlow}[1][]{\subsection*{Εναλλακτική #1 Ροή \protect\stepcounter{counterAlternativeFlow}\thecounterAlternativeFlow}}
+\newcommand{\flowbody}[2]{
+\begin{enumerate}[label=#1\arabic*]
+#2
+\end{enumerate}
+}
+\newcommand{\docChange}[1]{\textcolor{red}{#1}}
+
+
+\begin{document}
+
+\maketitle
+
+\newpage
+Χρήστος Καπετανάκης 1103828 \\
+Ανδρέας Κρητικός 1104781 \\
+Γιώργος Τεμπονέρας 1104775 \\
+Ελευθερία Γιαννοπούλου 1041039 \\
+Αλέξης Λούμπαρδης 1051948
+\newpage
+
+\section{Περιγραφή Δομής Κώδικας}
+Έχουμε 3 κύρια είδη κλάσεων: Pages, Controllers, Objects και Components.
+
+Τα Pages είναι φυσικές σελίδες που συνήθως κληρωνομούν την κλάση MainWindow που
+δημιουργεί το παράθυρο που βλέπει ο χρήστης.
+
+Ta Objects είναι κλάσεις που αποθηκεύουν μια οντότητα π.χ. πελάτης, αεροπλάνο, πιλότος, κλπ...
+Αυτή η κλάση αποθηκεύει στοιχεία μόνο για αυτό το αντικείμενο και έχει μεθόδους που μπορούν να
+επεξεργαστούν τα στοιχεία τους.
+
+Μετά υπάρχουν τα controllers όπου "ελέγχουν" και "αποθηκεύουν τα Objects. Κάθε controller
+περιέχει μια λίστα από τα objects που ελέγχουν. Μπορεί επίσης να αποθηκεύει και να διαχειρίζεται
+objects που είναι αποθηκευμένα μέσα στο object που αποθηκεύει. Π.χ. διαχειρίζεται passenger που είναι αποθηκευμένο
+στο FlightBooking που είναι αποθηκευμένο στο Flight. Άρα το flightController ελέγχει το passenger παρόλο που
+δεν το αποθηκεύει έμμεσα. Το controller μας βοηθάει να έχουμε ένα μέρος όπου διαχειρίζονται τα objects
+που μας βελτιώνει το reusability και μειώνει τα σφάλματα καθώς δεν έχουμε duplicate γραμμές κώδικα και
+έχουμε να τεστάρουμε λιγότερα πράγρματα.
+
+Επίσης υπάρχουν τα components. Αυτά είναι κλάσης που κληρονομούν java swing classes. Αυτά χρησιμοποιούνται
+για να μπορείς να φτιάξεις ένα gui. Τώρα θα μου πείτε γιατί φτιάχνουμε δικά μας αν υπάρχουν ήδη? Ο λόγος για
+αυτός είναι ότι φτιάχνοντας δικές μας κλάσης ξέρουμε ακριβώς πως δουλεύει και μπορούμε να κρύψουμε την
+πολυπλοκότητα που έχει η βιβλιοθήκη swing. Επίσης σημαίνει ότι όλα τα gui elements που έχουμε θα μοίαζουν
+μεταξύ τους και υπάρχει συνοχή μεταξύ των οθονών.
+
+\end{document}
