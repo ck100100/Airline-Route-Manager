@@ -26,13 +26,13 @@ public class PageEmployeeGUI extends JFrame {
 
     private JPanel detailsPanel;
 
-    public PageEmployeeGUI() {
+    public PageEmployeeGUI(ControllerEmployee controller) {
         setTitle("Employee Logs");
         setSize(800, 500);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        controller = new ControllerEmployee();
+        this.controller = controller;
         initComponents();
     }
 
