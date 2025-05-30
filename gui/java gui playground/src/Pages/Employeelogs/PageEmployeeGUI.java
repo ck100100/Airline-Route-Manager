@@ -6,6 +6,8 @@ import Object.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PageEmployeeGUI extends JFrame {
     private JComboBox<String> filterComboBox;
@@ -21,13 +23,15 @@ public class PageEmployeeGUI extends JFrame {
     private JTextField languagesField, seniorityField;
     private JCheckBox safetyBox;
 
-    public PageEmployeeGUI() {
+    private JPanel detailsPanel;
+
+    public PageEmployeeGUI(ControllerEmployee controller) {
         setTitle("Employee Logs");
-        setSize(800, 500);  // Thinner window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(800, 500);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        controller = new ControllerEmployee();
+        this.controller = controller;
         initComponents();
     }
 
