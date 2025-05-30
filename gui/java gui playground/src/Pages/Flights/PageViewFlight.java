@@ -64,11 +64,17 @@ public class PageViewFlight extends MainWindow {
         for(Pilot pilot : pilots)
             pilotNames.add(pilot.getName());
 
-        String[] selectedPilotNames = new String[flight.pilotListID.size()];
-        for(int i=0 ; i<selectedPilotNames.length; i++) {
-            Pilot pilot = airline.controllerEmployee.getPilotByID(flight.pilotListID.get(i));
-            selectedPilotNames[i] = pilot.getName();
+        String[] selectedPilotNames;
+        if(flight.pilotListID != null) {
+            selectedPilotNames = new String[flight.pilotListID.size()];
+            for (int i = 0; i < selectedPilotNames.length; i++) {
+                Pilot pilot = airline.controllerEmployee.getPilotByID(flight.pilotListID.get(i));
+                selectedPilotNames[i] = pilot.getName();
+            }
+        } else {
+            selectedPilotNames = new String[0];
         }
+
 
         flightAttendants = (ArrayList<FlightAttendant>) airline.controllerEmployee.getAllFlightAttendants();
         ArrayList<String> flightAttendantNames = new ArrayList<>();
@@ -208,6 +214,23 @@ public class PageViewFlight extends MainWindow {
             else
                 foodMenuID = foodMenus.get(foodMenuSelectedIndex - 1).menuID;
 
+            int airplaneID = airplaneInput.getSelectedIndex();
+            boolean planeAvailable = airline.controllerFlight.isPlaneAvailable(flight.departureTime, flight.arrivalTime, airplaneID);
+            if(flight.airplaneID != flight.airplaneID && !planeAvailable)
+                throw new InvalidInputException("The plane is not available to be scheduled for this flight!");
+
+            for(Integer pilotID : newPilotIDList) {
+                boolean pilotAvailable = airline.controllerFlight.isPilotAvailable(flight.departureTime, flight.arrivalTime, pilotID);
+                if(!pilotAvailable)
+                    throw new InvalidInputException("One of the pilots are not available for the flight");
+            }
+
+            for(Integer flightAttendantID : newFlightAttendantIDList) {
+                boolean isFlightAttendantAvailable = airline.controllerFlight.isFlightAttendantAvailable(flight.departureTime, flight.arrivalTime, flightAttendantID);
+                if (!isFlightAttendantAvailable)
+                    throw new InvalidInputException("One of the flight attendants are not available for the flight");
+            }
+
             flight.flightNumber = flightNumberInput.getText();
             flight.departureTime = departureDateInput.getValue();
             flight.arrivalTime = arrivalDateInput.getValue();
@@ -221,6 +244,7 @@ public class PageViewFlight extends MainWindow {
                 throw new InvalidInputException("Flight Number must be atleast 5 characters long");
             if(flight.arrivalTime.isBeforeOrEqual(flight.departureTime))
                 throw new InvalidInputException("Departure time must be before the arrival time");
+
 
             System.out.println("Flight saved successfully!");
             errorText.clear();
