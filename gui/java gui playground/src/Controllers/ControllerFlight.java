@@ -203,9 +203,9 @@ public class ControllerFlight {
         f1.setBasicDetails(
             "A1234",
             1,
-            new DateTime(0, 14, 10, 10, 2025),
+            new DateTime(0, 14, 10, 1, 2025),
             2,
-            new DateTime(0, 14, 10, 10, 2025)
+            new DateTime(0, 14, 10, 1, 2025)
         );
         f1.airplaneID = 14;
         var report = new FlightReport();
@@ -235,7 +235,7 @@ public class ControllerFlight {
 
 
         flightList.add(f1);
-        //flightList.add(f2);
+        flightList.add(f2);
 
     }
 }

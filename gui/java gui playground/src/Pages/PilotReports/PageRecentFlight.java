@@ -53,6 +53,10 @@ public class PageRecentFlight extends MainWindow {
         DateTime dateTime = new DateTime(currDateTime.getMinute(), currDateTime.getHour()
                 , currDateTime.getDayOfMonth(),currDateTime.getMonthValue(),currDateTime.getYear());
         planeFlights = controller.getFlightsBeforeDate(dateTime,plane);
+        if(planeFlights.isEmpty()){
+            JOptionPane.showMessageDialog(null,"There are no flights for this plane");
+            closeWindow();
+        }
         for(Flight flight : planeFlights){
             Object[] row = {flight.flightNumber};
             tableModel.addRow(row);

@@ -12,10 +12,12 @@ public class PageAirportGUI {
     private JFrame frame;
     private DefaultListModel<AirportLog> listModel;
     private JList<AirportLog> airportJList;
-    private final ControllerAirport airportLogs = new ControllerAirport();
+    private final ControllerAirport airportLogs ;
 
-    public PageAirportGUI() {
+    public PageAirportGUI(ControllerAirport airportLogs) {
+        this.airportLogs = airportLogs;
         initGUI();
+
     }
 
     private void initGUI() {

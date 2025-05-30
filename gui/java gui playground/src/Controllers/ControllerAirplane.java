@@ -81,7 +81,7 @@ public class ControllerAirplane {
         airplanes.add(makeAirplane("Boeing 777F", 0, 347800, 0, 120.0, 9200, 0, 0, true, "cargo"));
         airplanes.add(makeAirplane("Pilatus PC-12", 9, 1200, 8, 1.2, 2800, 3, 3, true, "passenger"));
         AirplaneLog p1 = new AirplaneLog("Plane");
-        p1.setStatus(AirplaneStatus.awaitingMaintenance);
+        p1.setStatus(AirplaneStatus.active);
         p1.setGroundFlightID(20);
         p1.setCapacity(10);
         p1.setType("cargo");

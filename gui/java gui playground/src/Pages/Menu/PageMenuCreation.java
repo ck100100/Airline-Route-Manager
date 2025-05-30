@@ -108,6 +108,10 @@ public class PageMenuCreation extends MainWindow {
     }
     private void onInsert() {
         int selectedRow = table.getSelectedRow();
+        if(selectedRow == -1){
+            JOptionPane.showMessageDialog(null,"No items selected to insert");
+            return;
+        }
         String name = tableModel.getValueAt(selectedRow,0).toString();
         double price = Double.parseDouble(tableModel.getValueAt(selectedRow,1).toString());
         double weight = Double.parseDouble(tableModel.getValueAt(selectedRow,2).toString());
@@ -121,7 +125,15 @@ public class PageMenuCreation extends MainWindow {
     private void onRegisterMenu() throws Exception {
         String name = nameInput.getText();
         String description = descriptionInput.getText();
-        int price = calculatePrice(selectedItems);
+        if(name.isEmpty() || description.isEmpty()){
+            JOptionPane.showMessageDialog(null,"You have to fill all forms before creating menu");
+            return;
+        }
+        float price = calculatePrice(selectedItems);
+        if(selectedItems.isEmpty()){
+            JOptionPane.showMessageDialog(null,"You have to select menu items first to create menu");
+            return;
+        }
         var TemporaryMenu = new PageTemporaryMenu(selectedItems,name,description,price,foodMenuController);
         TemporaryMenu.show();
     }

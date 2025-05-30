@@ -17,9 +17,9 @@ public class PageTemporaryMenu extends MainWindow {
     private JTable table;
     private String name;
     private String description;
-    private int price;
+    private float price;
     private DefaultTableModel tableModel;
-    public PageTemporaryMenu(List<FoodMenuItem> tempItems, String name, String description, int price, ControllerFoodMenu controllerFoodMenu){
+    public PageTemporaryMenu(List<FoodMenuItem> tempItems, String name, String description, float price, ControllerFoodMenu controllerFoodMenu){
         super("Temporary Menu");
         this.tempItems = tempItems;
         this.name = name;
@@ -101,6 +101,9 @@ public class PageTemporaryMenu extends MainWindow {
     public void onRemove(){
         int selectedRow = table.getSelectedRow();
         tempItems.remove(selectedRow);
+        for(FoodMenuItem item : tempItems){
+            price += item.price;
+        }
         refreshTable();
     }
     private void refreshTable(){

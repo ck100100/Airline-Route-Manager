@@ -5,6 +5,9 @@ import Pages.Airportlogs.PageAirportGUI;
 import Pages.FlightBooking.PageSearchFlight;
 import Pages.Flights.PageCreateFlight;
 import Pages.Flights.PageViewFlightList;
+import Pages.Maintenance.PageAwaitingMaintenance;
+import Pages.Menu.PageMenuCreation;
+import Pages.PilotReports.PageAvailablePlanes;
 import Pages.PilotReports.PagePlaneReport;
 import components.MainWindow;
 
@@ -36,21 +39,21 @@ public class PageMain extends MainWindow {
         pilotReportsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // fill this in
+                showPage(new PageAvailablePlanes(airline.controllerAirplane));
             }
         });
         var foodMenuBtn = new JButton("Food Menu");
         foodMenuBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // fill this in
+                showPage(new PageMenuCreation(airline.controllerMenuItem,airline.controllerFoodMenu));
             }
         });
         var airportsBtn = new JButton("Manage Airports");
         airportsBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // fill this in
+                SwingUtilities.invokeLater((Runnable) new PageAirportGUI(airline.controllerAirport));
             }
         });
         var employeesBtn = new JButton("Manage Employees");
@@ -71,7 +74,7 @@ public class PageMain extends MainWindow {
         maintenanceBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // fill this in
+                showPage(new PageAwaitingMaintenance(airline));
             }
         });
         var flightBookingBtn = new JButton("Book Flight");

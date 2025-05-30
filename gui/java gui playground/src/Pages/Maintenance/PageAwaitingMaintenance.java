@@ -56,10 +56,17 @@ public class PageAwaitingMaintenance extends MainWindow {
                 });
             }
         }
+        if(awaitingMaintenancePlanes.isEmpty()){
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(null,"No planes awaiting maintenance");
+                closeWindow();
+            });
+        }
         JScrollPane scrollPane = new JScrollPane(table);
         panel.add(scrollPane);
 
         return panel;
+
     }
 
     protected JPanel generateButtons() {

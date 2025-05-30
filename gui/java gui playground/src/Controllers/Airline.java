@@ -6,6 +6,7 @@ public class Airline {
     public ControllerFoodMenu controllerFoodMenu;
     public ControllerAirport controllerAirport;
     public ControllerEmployee controllerEmployee;
+    public ControllerMenuItem controllerMenuItem;
 
     public Airline() {
 
@@ -14,5 +15,6 @@ public class Airline {
         this.controllerFoodMenu = new ControllerFoodMenu();
         this.controllerAirport = new ControllerAirport();
         this.controllerEmployee = new ControllerEmployee();
+        this.controllerMenuItem = new ControllerMenuItem();
     }
 }

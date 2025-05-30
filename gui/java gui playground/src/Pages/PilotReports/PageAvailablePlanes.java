@@ -102,6 +102,9 @@ public class PageAvailablePlanes extends MainWindow {
 
     public void onSelect() {
         int selectedRow = table.getSelectedRow();
+        if(selectedRow == -1){
+            JOptionPane.showMessageDialog(null,"No plane selected. Select a plane to continue");
+        }
         AirplaneLog plane = activePlaneList.get(selectedRow);
         var PlaneFlights = new PageRecentFlight(plane);
         PlaneFlights.show();
