@@ -105,9 +105,9 @@ public class PageViewFlightList extends MainWindow {
             Flight flight = flightList.get(i);
             String[] parsedFlight = {
                     flight.flightNumber.toString(),
-                    flight.departureAirportID.toString(),
+                    airline.controllerAirport.getAirportByID(flight.departureAirportID).getNameAirport(),
                     flight.departureTime.parse(),
-                    flight.arrivalAirportID.toString(),
+                    airline.controllerAirport.getAirportByID(flight.arrivalAirportID).getNameAirport(),
                     flight.arrivalTime.parse()
             };
             parsedFlights[i] = parsedFlight;
