@@ -22,7 +22,7 @@ public class PageAirportGUI {
 
     private void initGUI() {
         frame = new JFrame("Airports");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         frame.setSize(500, 600);
         frame.setLayout(new BorderLayout());
 
