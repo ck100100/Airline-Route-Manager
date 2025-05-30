@@ -62,6 +62,9 @@ public class PageViewFlightList extends MainWindow {
 
         table = new JTable();
         updateTableModel(table);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.getColumnModel().getColumn(2).setMinWidth(150);
+        table.getColumnModel().getColumn(4).setMinWidth(150);
         table.setEnabled(true);
 
 
