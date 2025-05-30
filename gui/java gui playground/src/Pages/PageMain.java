@@ -11,6 +11,7 @@ import Pages.Maintenance.PageAwaitingMaintenance;
 import Pages.Menu.PageMenuCreation;
 import Pages.PilotReports.PageAvailablePlanes;
 import Pages.PilotReports.PagePlaneReport;
+import Pages.Airplanelogs.PageAirplaneGUI;
 import components.MainWindow;
 
 import javax.swing.*;
@@ -69,7 +70,7 @@ public class PageMain extends MainWindow {
         airplanesBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // fill this in
+                SwingUtilities.invokeLater(() -> new PageAirplaneGUI(airline.controllerAirplane).setVisible(true));
             }
         });
         var maintenanceBtn = new JButton("Maintenance");
