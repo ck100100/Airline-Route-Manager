@@ -3,6 +3,7 @@ package Pages;
 import Controllers.Airline;
 import Pages.Airportlogs.PageAirportGUI;
 import Pages.Contractors.PageContractorManage;
+import Pages.Employeelogs.PageEmployeeGUI;
 import Pages.FlightBooking.PageSearchFlight;
 import Pages.Flights.PageCreateFlight;
 import Pages.Flights.PageViewFlightList;
@@ -61,7 +62,7 @@ public class PageMain extends MainWindow {
         employeesBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // fill this in
+                SwingUtilities.invokeLater(() -> new PageEmployeeGUI(airline.controllerEmployee).setVisible(true));
             }
         });
         var airplanesBtn = new JButton("Manage Airplanes");

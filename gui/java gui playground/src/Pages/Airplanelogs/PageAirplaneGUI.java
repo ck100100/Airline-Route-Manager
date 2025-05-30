@@ -13,13 +13,14 @@ public class PageAirplaneGUI extends JFrame {
     private DefaultListModel<String> airplaneListModel;
     private JList<String> airplaneJList;
     private JTextField capacityField, typeField, flightRangeField;
-    private ControllerAirplane airplaneLogs = new ControllerAirplane();
+    private ControllerAirplane airplaneLogs ;
     private JPanel rightPanel;
 
-    public PageAirplaneGUI() {
+    public PageAirplaneGUI(ControllerAirplane airplaneLogs) {
         setTitle("Airplane Logs");
         setSize(900, 500);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
+        this.airplaneLogs = airplaneLogs;
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         setLayout(new BorderLayout());
 
         airplaneListModel = new DefaultListModel<>();
@@ -172,7 +173,5 @@ public class PageAirplaneGUI extends JFrame {
                 .orElse(null);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new PageAirplaneGUI().setVisible(true));
-    }
+
 }
