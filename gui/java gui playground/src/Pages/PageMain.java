@@ -1,7 +1,8 @@
-package Pages.Contractors;
+package Pages;
 
 import Controllers.Airline;
 import Pages.Airportlogs.PageAirportGUI;
+import Pages.Contractors.PageContractorManage;
 import Pages.FlightBooking.PageSearchFlight;
 import Pages.Flights.PageCreateFlight;
 import Pages.Flights.PageViewFlightList;
