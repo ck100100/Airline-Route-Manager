@@ -62,6 +62,9 @@ public class PageViewFlightList extends MainWindow {
 
         table = new JTable();
         updateTableModel(table);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.getColumnModel().getColumn(2).setMinWidth(150);
+        table.getColumnModel().getColumn(4).setMinWidth(150);
         table.setEnabled(true);
 
 
@@ -102,9 +105,9 @@ public class PageViewFlightList extends MainWindow {
             Flight flight = flightList.get(i);
             String[] parsedFlight = {
                     flight.flightNumber.toString(),
-                    flight.departureAirportID.toString(),
+                    airline.controllerAirport.getAirportByID(flight.departureAirportID).getNameAirport(),
                     flight.departureTime.parse(),
-                    flight.arrivalAirportID.toString(),
+                    airline.controllerAirport.getAirportByID(flight.arrivalAirportID).getNameAirport(),
                     flight.arrivalTime.parse()
             };
             parsedFlights[i] = parsedFlight;

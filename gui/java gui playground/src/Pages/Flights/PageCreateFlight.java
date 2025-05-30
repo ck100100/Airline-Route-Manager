@@ -187,7 +187,25 @@ public class PageCreateFlight extends MainWindow {
             if(newFlight.arrivalTime.isBeforeOrEqual(newFlight.departureTime))
                 throw new InvalidInputException("Departure time must be before the arrival time");
 
-            System.out.println("Flight saved successfully!");
+            boolean planeAvailable = airline.controllerFlight.isPlaneAvailable(newFlight.departureTime, newFlight.arrivalTime, newFlight.airplaneID);
+            if(!planeAvailable)
+                throw new InvalidInputException("The plane is not available to be scheduled for this flight!");
+
+            for(Integer pilotID : newPilotIDList) {
+                boolean pilotAvailable = airline.controllerFlight.isPilotAvailable(newFlight.departureTime, newFlight.arrivalTime, pilotID);
+                if(!pilotAvailable)
+                    throw new InvalidInputException("One of the pilots are not available for the flight");
+            }
+
+            for(Integer flightAttendantID : newFlightAttendantIDList) {
+                boolean isFlightAttendantAvailable = airline.controllerFlight.isFlightAttendantAvailable(newFlight.departureTime, newFlight.arrivalTime, flightAttendantID);
+                if (!isFlightAttendantAvailable)
+                    throw new InvalidInputException("One of the flight attendants are not available for the flight");
+            }
+
+
+
+                System.out.println("Flight saved successfully!");
             errorText.clear();
             errorText.repaint();
 

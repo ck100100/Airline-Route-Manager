@@ -120,47 +120,53 @@ public class ControllerFlight {
         return true;
     }
 
-    private boolean isPlaneAvailable(Flight flightToCheck, AirplaneLog airplane) {
+    public boolean isPlaneAvailable(DateTime departureTime, DateTime arrivalTime, int airplaneID) {
         for(Flight currentFlight: flightList) {
-            boolean equalEntities = currentFlight.airplaneID != airplane.getId();
+            boolean equalEntities = currentFlight.airplaneID == airplaneID;
             if(equalEntities) {
-                boolean hasNoOverlap = currentFlight.arrivalTime.isBefore(flightToCheck.departureTime)
-                        && flightToCheck.arrivalTime.isBefore(currentFlight.departureTime);
-                if(hasNoOverlap == false)
+                boolean overlaps = !(currentFlight.arrivalTime.isBefore(departureTime)
+                        || arrivalTime.isBefore(currentFlight.departureTime));
+                if(isDatesOverlapping(departureTime, arrivalTime, currentFlight.departureTime, currentFlight.arrivalTime))
                     return false;
             }
         }
         return true;
     }
 
-    private boolean isFlightAttendantAvailable(Flight flightToCheck, FlightAttendant flightAttendant) {
-        Integer[] fl = {flightAttendant.getFlightAttendantID()};
+    public boolean isFlightAttendantAvailable(DateTime departureTime, DateTime arrivalTime, int flightAttendantID) {
+        Integer[] fl = { flightAttendantID };
         for(Flight currentFlight: flightList) {
+            if(currentFlight.flightAttendantIDLlist == null)
+                continue;
+
             boolean equalEntities = containsMutualItem((ArrayList<Integer>) currentFlight.flightAttendantIDLlist, new ArrayList<>(Arrays.asList(fl)));
             if(equalEntities) {
-                boolean hasNoOverlap = currentFlight.arrivalTime.isBefore(flightToCheck.departureTime)
-                        && flightToCheck.arrivalTime.isBefore(currentFlight.departureTime);
-                if(hasNoOverlap == false)
+                if(isDatesOverlapping(departureTime, arrivalTime, currentFlight.departureTime, currentFlight.arrivalTime))
                     return false;
             }
         }
         return true;
     }
 
-    private boolean isPilotAvailable(Flight flightToCheck, Pilot pilot) {
-        Integer[] pl = {pilot.getPilotID()};
+    public boolean isPilotAvailable(DateTime departureTime, DateTime arrivalTime,  int pilotID) {
+        Integer[] pl = { pilotID };
         for(Flight currentFlight: flightList) {
+            if(currentFlight.pilotListID == null)
+                continue;
+
             boolean equalEntities = containsMutualItem((ArrayList<Integer>) currentFlight.pilotListID, new ArrayList<>(Arrays.asList(pl)));
             if(equalEntities) {
-                boolean hasNoOverlap = currentFlight.arrivalTime.isBefore(flightToCheck.departureTime)
-                        && flightToCheck.arrivalTime.isBefore(currentFlight.departureTime);
-                if(hasNoOverlap == false)
+                if(isDatesOverlapping(departureTime, arrivalTime, currentFlight.departureTime, currentFlight.arrivalTime))
                     return false;
             }
         }
         return true;
     }
 
+    private boolean isDatesOverlapping(DateTime departureDate1, DateTime arrivalDate1, DateTime departureDate2, DateTime arrivalDate2) {
+        return !(arrivalDate1.isBefore(departureDate2)
+                || arrivalDate2.isBefore(departureDate1));
+    }
 
     private boolean containsMutualItem(ArrayList<Integer> list1, ArrayList<Integer> list2) {
         for(Integer item1: list1)
@@ -203,9 +209,9 @@ public class ControllerFlight {
         f1.setBasicDetails(
             "A1234",
             1,
-            new DateTime(0, 14, 10, 1, 2025),
+            new DateTime(0, 14, 11, 10, 2025),
             2,
-            new DateTime(0, 14, 10, 1, 2025)
+            new DateTime(0, 15, 11, 10, 2025)
         );
         f1.airplaneID = 14;
         var report = new FlightReport();
@@ -217,15 +223,17 @@ public class ControllerFlight {
         f1.pricePerSeat = 10.0;
         f1.flightAttendantIDLlist = new ArrayList<>();
         f1.pilotListID = new ArrayList<>();
+        f1.pilotListID.add(1);
+        f1.flightAttendantIDLlist.add(1);
         f1.flightID = 20;
 
         var f2 = new Flight();
         f2.setBasicDetails(
                 "A1235",
                 3,
-                new DateTime(0, 14, 10, 10, 2025),
+                new DateTime(0, 14, 10, 11, 2025),
                 10,
-                new DateTime(0, 14, 10, 11, 2025)
+                new DateTime(0, 15, 10, 11, 2025)
         );
         f2.airplaneID = 14;
         f2.arrivalAirportID = 1;
