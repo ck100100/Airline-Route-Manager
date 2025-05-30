@@ -122,37 +122,88 @@ public class PageAirportGUI {
 
         save.addActionListener(e -> {
             try {
-                temp.setNameAirport(nameField.getText().trim());
-                temp.setLocation(locationField.getText().trim());
-                temp.setCapacity(Integer.parseInt(capacityField.getText()));
-                temp.setOpeningTime(LocalTime.parse(openField.getText()));
-                temp.setClosingTime(LocalTime.parse(closeField.getText()));
-                temp.setMaxFlights(Integer.parseInt(maxFlightsField.getText()));
-                temp.setMainRunwayLength(Float.parseFloat(runwayLengthField.getText()));
-                temp.setNumberOfRunways(Integer.parseInt(runwayCountField.getText()));
-                temp.setStatus(statusBox.isSelected());
+                String name = nameField.getText().trim();
+                String location = locationField.getText().trim();
+                int capacity = Integer.parseInt(capacityField.getText());
+                LocalTime openingTime = LocalTime.parse(openField.getText());
+                LocalTime closingTime = LocalTime.parse(closeField.getText());
+                int maxFlights = Integer.parseInt(maxFlightsField.getText());
+                float runwayLength = Float.parseFloat(runwayLengthField.getText());
+                int runwayCount = Integer.parseInt(runwayCountField.getText());
+                boolean status = statusBox.isSelected();
+
+                if (name.isEmpty() || location.isEmpty()) {
+                    JOptionPane.showMessageDialog(formFrame, "Name and Location cannot be empty.",
+                            "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                if (capacity <= 0) {
+                    JOptionPane.showMessageDialog(formFrame, "Capacity must be a positive number.",
+                            "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                if (runwayLength <= 0) {
+                    JOptionPane.showMessageDialog(formFrame, "Runway length must be positive.",
+                            "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                if (runwayCount <= 0||runwayCount >= 20) {
+                    JOptionPane.showMessageDialog(formFrame, "Number of runways must be between 0 and 20.",
+                            "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                if (maxFlights <= 0||maxFlights >= 100) {
+                    JOptionPane.showMessageDialog(formFrame, "Max flights must be between 0 and 100.",
+                            "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                if (closingTime.isBefore(openingTime)) {
+                    JOptionPane.showMessageDialog(formFrame, "Closing time must be after opening time.",
+                            "Warning", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                temp.setNameAirport(name);
+                temp.setLocation(location);
+                temp.setCapacity(capacity);
+                temp.setOpeningTime(openingTime);
+                temp.setClosingTime(closingTime);
+                temp.setMaxFlights(maxFlights);
+                temp.setMainRunwayLength(runwayLength);
+                temp.setNumberOfRunways(runwayCount);
+                temp.setStatus(status);
 
                 if (isEdit) {
-                    original.setNameAirport(temp.getNameAirport());
-                    original.setLocation(temp.getLocation());
-                    original.setCapacity(temp.getCapacity());
-                    original.setOpeningTime(temp.getOpeningTime());
-                    original.setClosingTime(temp.getClosingTime());
-                    original.setMaxFlights(temp.getMaxFlights());
-                    original.setMainRunwayLength(temp.getMainRunwayLength());
-                    original.setNumberOfRunways(temp.getNumberOfRunways());
-                    original.setStatus(temp.isStatus());
+                    original.setNameAirport(name);
+                    original.setLocation(location);
+                    original.setCapacity(capacity);
+                    original.setOpeningTime(openingTime);
+                    original.setClosingTime(closingTime);
+                    original.setMaxFlights(maxFlights);
+                    original.setMainRunwayLength(runwayLength);
+                    original.setNumberOfRunways(runwayCount);
+                    original.setStatus(status);
                     airportJList.repaint();
                 } else {
                     airportLogs.addAirport(temp);
                     listModel.addElement(temp);
                 }
+
+                JOptionPane.showMessageDialog(formFrame, "Airport information saved successfully!",
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+
                 formFrame.dispose();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(formFrame, "Invalid input: " + ex.getMessage(),
                         "Error", JOptionPane.ERROR_MESSAGE);
             }
         });
+
 
         if (isEdit) {
             delete.addActionListener(e -> {
